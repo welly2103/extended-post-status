@@ -134,10 +134,16 @@ class Extended_Post_Status
         $this->loader->add_action('init', $plugin_admin, 'register_status_taxonomy');
         $this->loader->add_action('init', $plugin_admin, 'register_post_status');
         $this->loader->add_action('admin_footer-post.php', $plugin_admin, 'append_post_status_list');
+        $this->loader->add_action('admin_footer-edit.php', $plugin_admin, 'append_post_status_list_quickedit');
+        $this->loader->add_action('display_post_states', $plugin_admin, 'append_post_status_post_overview');
         $this->loader->add_action('status_add_form_fields', $plugin_admin, 'status_taxonomy_custom_fields', 10, 2);
         $this->loader->add_action('created_status', $plugin_admin, 'save_status_taxonomy_custom_fields', 10, 2);
         $this->loader->add_action('status_edit_form_fields', $plugin_admin, 'status_taxonomy_custom_fields', 10, 2);
         $this->loader->add_action('edited_status', $plugin_admin, 'save_status_taxonomy_custom_fields', 10, 2);
+        $this->loader->add_action('manage_edit-status_columns', $plugin_admin, 'edit_status_taxonomy_columns');
+        $this->loader->add_action('add_meta_boxes', $plugin_admin, 'add_status_meta_box');
+
+        $this->loader->add_filter('manage_status_custom_column', $plugin_admin, 'add_status_taxonomy_columns_content', 10, 3);
     }
 
     /**

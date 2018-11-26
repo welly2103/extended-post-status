@@ -14,7 +14,7 @@
  * @wordpress-plugin
  * Plugin Name:       Extended Post Status
  * Plugin URI:        http://www.felixwelberg.de/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Add new post status types.
  * Version:           1.0.0
  * Author:            Felix Welberg
  * Author URI:        http://www.felixwelberg.de/
@@ -27,6 +27,9 @@
 if (!defined('WPINC')) {
     die;
 }
+
+__('Extended Post Status', 'extended-post-status');
+__('Add new post status types.', 'extended-post-status');
 
 /**
  * Currently plugin version.
