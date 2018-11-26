@@ -13,7 +13,6 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Extended Post Status
- * Plugin URI:        http://www.felixwelberg.de/
  * Description:       Add new post status types.
  * Version:           1.0.0
  * Author:            Felix Welberg

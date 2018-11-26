@@ -33,7 +33,7 @@ You will find a new menu item located in the posts admin menu.
 
 == Frequently Asked Questions ==
 
-= How does this plguin work? =
+= How does this plugin work? =
 
 As there is no core hook to add new items to the status dropdown in posts and
 in the quick edit view, js is required to achieve this. It is definently the
