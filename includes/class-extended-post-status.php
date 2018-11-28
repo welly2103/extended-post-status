@@ -71,7 +71,7 @@ class Extended_Post_Status
         if (defined('EXTENDED_POST_STATUS_VERSION')) {
             $this->version = EXTENDED_POST_STATUS_VERSION;
         } else {
-            $this->version = '1.0.1';
+            $this->version = '1.0.2';
         }
         $this->plugin_name = 'extended-post-status';
 
@@ -142,6 +142,7 @@ class Extended_Post_Status
         $this->loader->add_action('created_status', $plugin_admin, 'save_status_taxonomy_custom_fields', 10, 2);
         $this->loader->add_action('status_edit_form_fields', $plugin_admin, 'status_taxonomy_custom_fields', 10, 2);
         $this->loader->add_action('edited_status', $plugin_admin, 'save_status_taxonomy_custom_fields', 10, 2);
+        $this->loader->add_action('edited_terms', $plugin_admin, 'override_status_taxonomy_core_fields', 10, 2);
         $this->loader->add_action('manage_edit-status_columns', $plugin_admin, 'edit_status_taxonomy_columns');
         $this->loader->add_action('add_meta_boxes', $plugin_admin, 'add_status_meta_box');
 

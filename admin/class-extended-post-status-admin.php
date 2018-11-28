@@ -255,12 +255,15 @@ class Extended_Post_Status_Admin
     public function save_status_taxonomy_custom_fields($term_id)
     {
         $fields = ['public', 'show_in_admin_all_list', 'show_in_admin_status_list'];
+        $is_inline_edit = filter_input(INPUT_POST, '_inline_edit');
 
-        /* Reset all fields */
-        foreach ($fields AS $field) {
-            $term_meta[$field] = 0;
+        /* Reset all custom checkbox fields */
+        if (!$is_inline_edit) {
+            foreach ($fields AS $field) {
+                $term_meta[$field] = 0;
+            }
+            update_option("taxonomy_term_$term_id", $term_meta);
         }
-        update_option("taxonomy_term_$term_id", $term_meta);
 
         /* Update new values */
         if (isset($_POST['term_meta'])) {
@@ -272,6 +275,29 @@ class Extended_Post_Status_Admin
                 }
             }
             update_option("taxonomy_term_$term_id", $term_meta);
+        }
+    }
+
+    /**
+     * Override core field after the update of a status taxonomy
+     * Used to check if the slug is longer than 20 chars, because the database
+     * field for statuses is limited to 20 chars
+     * 
+     * 
+     * @param type $term_id
+     * @param type $taxonomy
+     * @since    1.0.2
+     */
+    public function override_status_taxonomy_core_fields($term_id, $taxonomy)
+    {
+        if ($taxonomy == 'status') {
+            $term = get_term($term_id, $taxonomy);
+            $slug = $term->slug;
+
+            /* Cut slug if it is longer than 20 chars */
+            if (strlen($slug) > 20) {
+                wp_update_term($term_id, $taxonomy, ['slug' => substr($slug, 0, 20)]);
+            }
         }
     }
 
@@ -303,6 +329,8 @@ class Extended_Post_Status_Admin
             unset($columns['posts']);
         }
         $columns['settings'] = __('Settings', 'extended-post-status');
+        $columns['count_posts'] = __('Posts', 'extended-post-status');
+        $columns['count_pages'] = __('Pages', 'extended-post-status');
         return $columns;
     }
 
@@ -312,12 +340,13 @@ class Extended_Post_Status_Admin
      * @param type $content
      * @param type $column_name
      * @param type $term_id
-     * @return type
+     * @return string
      * @since    1.0.0
      */
     public function add_status_taxonomy_columns_content($content, $column_name, $term_id)
     {
         $content = '';
+        $term = get_term($term_id);
         $term_meta = get_option("taxonomy_term_$term_id");
         if ('settings' == $column_name) {
             if (array_key_exists('public', $term_meta) && $term_meta['public'] == 1) {
@@ -329,8 +358,18 @@ class Extended_Post_Status_Admin
             if (array_key_exists('show_in_admin_status_list', $term_meta) && $term_meta['show_in_admin_status_list'] == 1) {
                 $content .= __('Show in admin status list', 'extended-post-status') . ', ';
             }
+            $content = rtrim($content, ', ');
         }
-        $content = rtrim($content, ', ');
+        if ('count_posts' == $column_name) {
+            $count = wp_count_posts('post');
+            $slug = $term->slug;
+            $content .= '<a href="edit.php?post_status=' . $slug . '&post_type=post" target="_self">' . $count->$slug . '</a>';
+        }
+        if ('count_pages' == $column_name) {
+            $count = wp_count_posts('page');
+            $slug = $term->slug;
+            $content .= '<a href="edit.php?post_status=' . $slug . '&post_type=page" target="_self">' . $count->$slug . '</a>';
+        }
         return $content;
     }
 

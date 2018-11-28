@@ -45,6 +45,11 @@ Your posts/pages will never be deleted, but you need to know your old status slu
 
 == Changelog ==
 
+= 1.0.2 =
+* [Added] Page and post count in status overview
+* [Fixed] Bug that removes all status settings when quickediting a status
+* [Fixed] Set slug length to max 20 chars because of posts status db field length
+
 = 1.0.1 =
 * [Added] Page status support
 * [Fixed] Bug in displaying posts/pages in 'all' list
