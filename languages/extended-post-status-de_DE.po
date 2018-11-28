@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Extended post status\n"
-"POT-Creation-Date: 2018-11-26 13:50+0100\n"
-"PO-Revision-Date: 2018-11-26 13:50+0100\n"
+"POT-Creation-Date: 2018-11-28 12:20+0100\n"
+"PO-Revision-Date: 2018-11-28 12:21+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -17,6 +17,7 @@ msgstr ""
 
 #: admin/class-extended-post-status-admin.php:186
 #: admin/class-extended-post-status-admin.php:187
+#: admin/class-extended-post-status-admin.php:347
 msgid "Status"
 msgstr "Status"
 
@@ -90,39 +91,44 @@ msgid "Public"
 msgstr "Veröffentlicht"
 
 #: admin/class-extended-post-status-admin.php:226
-msgid "Posts with this status are public"
-msgstr "Beiträge mit diesem Status sind öffentlich sichtbar"
+msgid "Posts/Pages with this status are public."
+msgstr "Beiträge mit diesem Status sind öffentlich sichtbar."
 
 #: admin/class-extended-post-status-admin.php:227
-#: admin/class-extended-post-status-admin.php:327
-msgid "Show in admin all list"
-msgstr "Zeige in Admin \"Alle\" Liste"
+msgid "Show posts in admin all list"
+msgstr "Zeige Beiträge in Admin \"Alle\" Liste"
 
 #: admin/class-extended-post-status-admin.php:227
-msgid "Posts with this status will be counted in admin all list"
-msgstr "Beiträge mit diesem Status werden in \"Alle\" gezählt"
+msgid "Posts/Pages with this status will listet in all posts/pages overview."
+msgstr "Beiträge/Seiten mit diesem Status werden in \"Alle\" aufgelistet."
 
 #: admin/class-extended-post-status-admin.php:228
-#: admin/class-extended-post-status-admin.php:330
-msgid "Show in admin status list"
-msgstr "Zeige in Admin Statusliste"
+msgid "Show status in admin status list"
+msgstr "Zeige Status in Admin Statusliste"
 
 #: admin/class-extended-post-status-admin.php:228
-msgid "Status appears in status list"
-msgstr "Der Status erscheint in der Statusliste"
+msgid "Status appears in status list."
+msgstr "Der Status erscheint in der Statusliste."
 
 #: admin/class-extended-post-status-admin.php:305
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: admin/class-extended-post-status-admin.php:347
-msgid "Post status"
-msgstr "Beitragsstatus"
+#: admin/class-extended-post-status-admin.php:327
+msgid "Show in admin all list"
+msgstr "Zeige in Admin \"Alle\" Liste"
 
-#: extended-post-status.php:31
+#: admin/class-extended-post-status-admin.php:330
+msgid "Show in admin status list"
+msgstr "Zeige in Admin Statusliste"
+
+#: extended-post-status.php:30
 msgid "Extended Post Status"
 msgstr "Erweiterte Beitragsstatus"
 
-#: extended-post-status.php:32
+#: extended-post-status.php:31
 msgid "Add new post status types."
 msgstr "Fügt neue Beitragsstatus hinzu."
+
+#~ msgid "Post status"
+#~ msgstr "Beitragsstatus"
