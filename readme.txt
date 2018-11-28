@@ -35,13 +35,13 @@ You will find a new menu item located in the posts admin menu.
 
 As there is no core hook to add new items to the status dropdown in posts and in the quick edit view, js is required to achieve this. It is definently the most dirty way, but WP Core does not provide other ways to do it.
 
+There is an open track ticket fo this circumstance:
+https://core.trac.wordpress.org/ticket/12706
+
 = What happens when I delete a status or deactivate the plugin? =
 
 Be careful, posts without a valid status will be hidden! Just change the status of posts to a system status (e.g. publish or draft) with custom statuses before you delete a status or deactivate the plugin.
 Your posts will not be deleted, but you need to know your old status slugs, once you have deleted a status or deactivated the plugin to get your posts back in the backend.
-
-There is an open track ticket fo this circumstance:
-https://core.trac.wordpress.org/ticket/12706
 
 == Changelog ==
 
