@@ -67,7 +67,7 @@ class Extended_Post_Status_Admin
         global $post;
         $complete = '';
         $status = self::get_status();
-        if ($post->post_type == 'post') {
+        if ($post->post_type == 'post' || $post->post_type == 'page') {
             foreach ($status AS $single_status) {
                 if ($post->post_status == $single_status->slug) {
                     $complete = ' selected="selected"';
@@ -136,7 +136,7 @@ class Extended_Post_Status_Admin
         $status = self::get_status();
         foreach ($status AS $single_status) {
             if ($single_status->slug == $post->post_status) {
-                return array($single_status->name);
+                return [$single_status->name];
             }
         }
         return $statuses;
@@ -152,10 +152,10 @@ class Extended_Post_Status_Admin
         $status = self::get_status();
         foreach ($status AS $single_status) {
             $term_meta = get_option("taxonomy_term_$single_status->term_id");
-            $args = array(
+            $args = [
                 'label' => $single_status->name,
                 'label_count' => _n_noop($single_status->name . ' <span class="count">(%s)</span>', $single_status->name . ' <span class="count">(%s)</span>'),
-            );
+            ];
             if ($term_meta['public'] == 1) {
                 $args['public'] = true;
             } else {
@@ -182,7 +182,7 @@ class Extended_Post_Status_Admin
      */
     public function register_status_taxonomy()
     {
-        $labels = array(
+        $labels = [
             'name' => _x('Status', 'taxonomy general name', 'extended-post-status'),
             'singular_name' => _x('Status', 'taxonomy singular name', 'extended-post-status'),
             'menu_name' => __('Statuses', 'extended-post-status'),
@@ -201,13 +201,13 @@ class Extended_Post_Status_Admin
             'choose_from_most_used' => __('Choose from most used statuses', 'extended-post-status'),
             'not_found' => __('No statuses found', 'extended-post-status'),
             'back_to_items' => __('← Back to status', 'extended-post-status'),
-        );
-        $args = array(
+        ];
+        $args = [
             'labels' => $labels,
             'show_ui' => true,
             'show_admin_column' => true,
             'query_var' => true,
-        );
+        ];
         register_taxonomy('status', 'post', $args);
     }
 
@@ -222,11 +222,11 @@ class Extended_Post_Status_Admin
         $returner = '';
         $t_id = $tag->term_id;
         $term_meta = get_option("taxonomy_term_$t_id");
-        $fields = array(
-            'public' => array('label' => __('Public', 'extended-post-status'), 'desc' => __('Posts with this status are public', 'extended-post-status')),
-            'show_in_admin_all_list' => array('label' => __('Show in admin all list', 'extended-post-status'), 'desc' => __('Posts with this status will be counted in admin all list', 'extended-post-status')),
-            'show_in_admin_status_list' => array('label' => __('Show in admin status list', 'extended-post-status'), 'desc' => __('Status appears in status list', 'extended-post-status')),
-        );
+        $fields = [
+            'public' => ['label' => __('Public', 'extended-post-status'), 'desc' => __('Posts/Pages with this status are public.', 'extended-post-status')],
+            'show_in_admin_all_list' => ['label' => __('Show posts in admin all list', 'extended-post-status'), 'desc' => __('Posts/Pages with this status will listet in all posts/pages overview.', 'extended-post-status')],
+            'show_in_admin_status_list' => ['label' => __('Show status in admin status list', 'extended-post-status'), 'desc' => __('Status appears in status list.', 'extended-post-status')],
+        ];
         foreach ($fields AS $key => $value) {
             $checked = '';
             if ($term_meta[$key] == 1) {
@@ -235,10 +235,10 @@ class Extended_Post_Status_Admin
             $returner .= '
                 <tr class="form-field">
                     <th scope="row" valign="top">
-                        <label for="term_meta[' . $key . ']">' . $value['label'] . '</label>
+                        <label for="term_meta[' . $key . ']"><input type="checkbox" name="term_meta[' . $key . ']" id="term_meta[' . $key . ']" value="1" ' . $checked . ' /> ' . $value['label'] . '</label>
                     </th>
                     <td>
-                        <label for="term_meta[' . $key . ']"><input type="checkbox" name="term_meta[' . $key . ']" id="term_meta[' . $key . ']" value="1" ' . $checked . ' /> ' . $value['desc'] . '</label><br />
+                        <label for="term_meta[' . $key . ']"><p>' . $value['desc'] . '</p></label><br />
                     </td>
                 </tr>
             ';
@@ -254,7 +254,7 @@ class Extended_Post_Status_Admin
      */
     public function save_status_taxonomy_custom_fields($term_id)
     {
-        $fields = array('public', 'show_in_admin_all_list', 'show_in_admin_status_list');
+        $fields = ['public', 'show_in_admin_all_list', 'show_in_admin_status_list'];
 
         /* Reset all fields */
         foreach ($fields AS $field) {
@@ -283,10 +283,10 @@ class Extended_Post_Status_Admin
      */
     public function get_status()
     {
-        $args = array(
+        $args = [
             'taxonomy' => 'status',
             'hide_empty' => false,
-        );
+        ];
         return get_terms($args);
     }
 
@@ -341,10 +341,10 @@ class Extended_Post_Status_Admin
      */
     public function add_status_meta_box()
     {
-        $screens = ['post'];
+        $screens = ['post', 'page'];
         if (function_exists('register_block_type')) {
             foreach ($screens as $screen) {
-                add_meta_box('extended_post_status', __('Post status', 'extended-post-status'), ['Extended_Post_Status_Admin', 'status_meta_box_content'], $screen, 'side', 'high');
+                add_meta_box('extended_post_status', __('Status', 'extended-post-status'), ['Extended_Post_Status_Admin', 'status_meta_box_content'], $screen, 'side', 'high');
             }
         }
     }
@@ -380,7 +380,7 @@ class Extended_Post_Status_Admin
      */
     public function get_all_status_array()
     {
-        $statuses = array();
+        $statuses = [];
         $core_statuses = get_post_statuses();
         $statuses = $core_statuses;
         $custom_statuses = self::get_status();
@@ -388,5 +388,47 @@ class Extended_Post_Status_Admin
             $statuses[$status->slug] = $status->name;
         }
         return $statuses;
+    }
+
+    /**
+     * Initialize the view for the overridden query
+     * 
+     * @global type $pagenow
+     * @since    1.0.1
+     */
+    public function override_admin_post_list_init()
+    {
+        global $pagenow;
+        if ('edit.php' == $pagenow) {
+            add_action('parse_query', ['Extended_Post_Status_Admin', 'override_admin_post_list']);
+        }
+    }
+
+    /**
+     * Override the post query
+     * 
+     * @param type $query
+     * @return type
+     * @since    1.0.1
+     */
+    public function override_admin_post_list($query)
+    {
+        $statuses = self::get_status();
+        /* Check if query has no further params */
+        if ($query->query == ['post_type' => 'post', 'posts_per_page' => $query->query['posts_per_page']] || $query->query == ['post_type' => 'page', 'posts_per_page' => $query->query['posts_per_page']]) {
+            $statuses_show_in_admin_all_list = [];
+            $statuses_show_in_admin_all_list[] = 'publish';
+            $statuses_show_in_admin_all_list[] = 'draft';
+            $statuses_show_in_admin_all_list[] = 'pending';
+            foreach ($statuses AS $status) {
+                $term_meta = get_option("taxonomy_term_$status->term_id");
+                if ($term_meta['show_in_admin_all_list'] == 1) {
+                    $statuses_show_in_admin_all_list[] = $status->slug;
+                }
+            }
+            set_query_var('post_status', $statuses_show_in_admin_all_list);
+            return;
+        }
+        return;
     }
 }
