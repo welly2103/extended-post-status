@@ -142,10 +142,10 @@ class Extended_Post_Status
         $this->loader->add_action('created_status', $plugin_admin, 'save_status_taxonomy_custom_fields', 10, 2);
         $this->loader->add_action('status_edit_form_fields', $plugin_admin, 'status_taxonomy_custom_fields', 10, 2);
         $this->loader->add_action('edited_status', $plugin_admin, 'save_status_taxonomy_custom_fields', 10, 2);
-        $this->loader->add_action('edited_terms', $plugin_admin, 'override_status_taxonomy_core_fields', 10, 2);
         $this->loader->add_action('manage_edit-status_columns', $plugin_admin, 'edit_status_taxonomy_columns');
         $this->loader->add_action('add_meta_boxes', $plugin_admin, 'add_status_meta_box');
 
+        $this->loader->add_filter('wp_update_term_data', $plugin_admin, 'override_status_taxonomy_on_save', 10, 4);
         $this->loader->add_filter('manage_status_custom_column', $plugin_admin, 'add_status_taxonomy_columns_content', 10, 3);
     }
 

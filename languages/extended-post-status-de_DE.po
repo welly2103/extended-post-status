@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Extended post status\n"
-"POT-Creation-Date: 2018-11-28 12:20+0100\n"
-"PO-Revision-Date: 2018-11-28 12:21+0100\n"
+"POT-Creation-Date: 2018-12-03 11:48+0100\n"
+"PO-Revision-Date: 2018-12-03 11:49+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: admin/class-extended-post-status-admin.php:186
 #: admin/class-extended-post-status-admin.php:187
-#: admin/class-extended-post-status-admin.php:347
+#: admin/class-extended-post-status-admin.php:389
 msgid "Status"
 msgstr "Status"
 
@@ -86,7 +86,7 @@ msgid "← Back to status"
 msgstr "← Zurück zu Status"
 
 #: admin/class-extended-post-status-admin.php:226
-#: admin/class-extended-post-status-admin.php:324
+#: admin/class-extended-post-status-admin.php:356
 msgid "Public"
 msgstr "Veröffentlicht"
 
@@ -110,15 +110,23 @@ msgstr "Zeige Status in Admin Statusliste"
 msgid "Status appears in status list."
 msgstr "Der Status erscheint in der Statusliste."
 
-#: admin/class-extended-post-status-admin.php:305
+#: admin/class-extended-post-status-admin.php:334
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: admin/class-extended-post-status-admin.php:327
+#: admin/class-extended-post-status-admin.php:335
+msgid "Posts"
+msgstr "Beiträge"
+
+#: admin/class-extended-post-status-admin.php:336
+msgid "Pages"
+msgstr "Seiten"
+
+#: admin/class-extended-post-status-admin.php:359
 msgid "Show in admin all list"
 msgstr "Zeige in Admin \"Alle\" Liste"
 
-#: admin/class-extended-post-status-admin.php:330
+#: admin/class-extended-post-status-admin.php:362
 msgid "Show in admin status list"
 msgstr "Zeige in Admin Statusliste"
 
@@ -129,6 +137,3 @@ msgstr "Erweiterte Beitragsstatus"
 #: extended-post-status.php:31
 msgid "Add new post status types."
 msgstr "Fügt neue Beitragsstatus hinzu."
-
-#~ msgid "Post status"
-#~ msgstr "Beitragsstatus"

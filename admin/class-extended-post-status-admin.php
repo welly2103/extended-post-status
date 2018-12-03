@@ -284,21 +284,24 @@ class Extended_Post_Status_Admin
      * field for statuses is limited to 20 chars
      * 
      * 
+     * @param type $data
      * @param type $term_id
      * @param type $taxonomy
+     * @param type $args
+     * @return type
      * @since    1.0.2
      */
-    public function override_status_taxonomy_core_fields($term_id, $taxonomy)
+    public function override_status_taxonomy_on_save($data, $term_id, $taxonomy, $args)
     {
         if ($taxonomy == 'status') {
-            $term = get_term($term_id, $taxonomy);
-            $slug = $term->slug;
+            $slug = $data['slug'];
 
             /* Cut slug if it is longer than 20 chars */
             if (strlen($slug) > 20) {
-                wp_update_term($term_id, $taxonomy, ['slug' => substr($slug, 0, 20)]);
+                $data['slug'] = substr($slug, 0, 20);
             }
         }
+        return $data;
     }
 
     /**
