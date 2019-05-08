@@ -2,7 +2,7 @@
 Contributors: welly2103
 Tags: status, post, publishing, extended, statuses, page
 Requires at least: 4.9.8
-Tested up to: 5.1
+Tested up to: 5.2
 Requires PHP: 7.2
 Stable tag: 5.1
 License: GPLv2 or later
