@@ -65,9 +65,10 @@ class Extended_Post_Status_Admin
     public function append_post_status_list()
     {
         global $post;
+        $post_types = get_post_types();
         $complete = '';
         $status = self::get_status();
-        if ($post->post_type == 'post' || $post->post_type == 'page') {
+        if (in_array($post->post_type, $post_types)) {
             foreach ($status AS $single_status) {
                 if ($post->post_status == $single_status->slug) {
                     $complete = ' selected="selected"';
