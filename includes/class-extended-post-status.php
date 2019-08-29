@@ -71,7 +71,7 @@ class Extended_Post_Status
         if (defined('EXTENDED_POST_STATUS_VERSION')) {
             $this->version = EXTENDED_POST_STATUS_VERSION;
         } else {
-            $this->version = '1.0.3';
+            $this->version = '1.0.4';
         }
         $this->plugin_name = 'extended-post-status';
 
@@ -134,6 +134,10 @@ class Extended_Post_Status
         $this->loader->add_action('init', $plugin_admin, 'register_status_taxonomy');
         $this->loader->add_action('init', $plugin_admin, 'register_post_status');
         $this->loader->add_action('admin_init', $plugin_admin, 'override_admin_post_list_init');
+        $this->loader->add_action('admin_init', $plugin_admin, 'settings_init');
+        $this->loader->add_action('admin_init', $plugin_admin, 'admin_redirects');
+        $this->loader->add_action('admin_menu', $plugin_admin, 'admin_menu');
+        $this->loader->add_action('parent_file', $plugin_admin, 'parent_file');
         $this->loader->add_action('admin_footer-post.php', $plugin_admin, 'append_post_status_list');
         $this->loader->add_action('admin_footer-post-new.php', $plugin_admin, 'append_post_status_list');
         $this->loader->add_action('admin_footer-edit.php', $plugin_admin, 'append_post_status_list_quickedit');

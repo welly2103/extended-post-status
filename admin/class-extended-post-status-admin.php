@@ -209,6 +209,9 @@ class Extended_Post_Status_Admin
             'show_admin_column' => true,
             'query_var' => true,
         ];
+        if (get_option('extended-post-status-add-extra-admin-menu-item', false)) {
+            $args['show_in_menu'] = false;
+        }
         register_taxonomy('status', 'post', $args);
     }
 
@@ -473,5 +476,113 @@ class Extended_Post_Status_Admin
             return;
         }
         return;
+    }
+
+    /**
+     * Init additional settings page params
+     * 
+     * @since    1.0.4
+     */
+    public function settings_init()
+    {
+        register_setting(
+            'writing',
+            'extended-post-status-add-extra-admin-menu-item',
+            ['Extended_Post_Status_Admin', 'settings_sanitize']
+        );
+        add_settings_section(
+            'extended-post-status-settings',
+            __('Extended Post Status', 'extended-post-status'),
+            ['Extended_Post_Status_Admin', 'settings_section_description'],
+            'writing'
+        );
+        add_settings_field(
+            'extended-post-status-add-extra-admin-menu-item',
+            __('Move status to main admin menu.', 'extended-post-status'),
+            ['Extended_Post_Status_Admin', 'settings_extra_admin_menu_item_field'],
+            'writing',
+            'extended-post-status-settings'
+        );
+    }
+
+    /**
+     * Sanitize setting page input
+     * 
+     * @param type $input
+     * @return type
+     * @since    1.0.4
+     */
+    public function settings_sanitize($input)
+    {
+        return isset($input) ? true : false;
+    }
+
+    /**
+     * Add description to settings page section
+     * 
+     * @since    1.0.4
+     */
+    public function settings_section_description()
+    {
+        echo __('Settings for post status handling.', 'extended-post-status');
+    }
+
+    /**
+     * Add settings section fields
+     * 
+     * @since    1.0.4
+     */
+    public function settings_extra_admin_menu_item_field()
+    {
+        $returner = '
+            <label for="extended-post-status-add-extra-admin-menu-item">
+                <input id="extended-post-status-add-extra-admin-menu-item" type="checkbox" value="1" name="extended-post-status-add-extra-admin-menu-item"' . checked(get_option('extended-post-status-add-extra-admin-menu-item', false), true, false) . '>
+            </label>
+        ';
+        echo $returner;
+    }
+
+    /**
+     * Add admin menu items
+     * 
+     * @since    1.0.4
+     */
+    public function admin_menu()
+    {
+        if (get_option('extended-post-status-add-extra-admin-menu-item', false)) {
+            add_menu_page(__('Status', 'extended-post-status'), __('Status', 'extended-post-status'), 'publish_posts', 'extended-post-status-taxonomy', ['Extended_Post_Status_Admin', 'admin_menu_link_extended_post_status_taxonomy'], 'dashicons-post-status');
+        }
+    }
+
+    /**
+     * Redirects in admin context
+     * - Redirect the main admin menu status page to original taxonomy page
+     * 
+     * @global type $pagenow
+     * @since    1.0.4
+     */
+    public function admin_redirects()
+    {
+        global $pagenow;
+        if ($pagenow == 'admin.php' && filter_input(INPUT_GET, 'page') == 'extended-post-status-taxonomy') {
+            wp_redirect(admin_url('edit-tags.php?taxonomy=status'), 301);
+            exit;
+        }
+    }
+
+    /**
+     * Parent file settings
+     * - Used to fake the status page in main admin menu
+     * 
+     * @param string $parent_file
+     * @return string
+     * @since    1.0.4
+     */
+    public function parent_file($parent_file)
+    {
+        if (get_current_screen()->taxonomy == 'status' && get_option('extended-post-status-add-extra-admin-menu-item', false)) {
+            $parent_file = 'extended-post-status-taxonomy';
+        }
+        return $parent_file;
     }
 }
