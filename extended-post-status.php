@@ -9,7 +9,6 @@
  *
  * @link              http://www.felixwelberg.de/
  * @since             1.0.0
- * @package           Extended_Post_Status
  *
  * @wordpress-plugin
  * Plugin Name:       Extended Post Status
@@ -76,7 +75,6 @@ require plugin_dir_path(__FILE__) . 'includes/class-extended-post-status.php';
  */
 function run_extended_post_status()
 {
-
     $plugin = new Extended_Post_Status();
     $plugin->run();
 }

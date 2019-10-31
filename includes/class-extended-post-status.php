@@ -7,9 +7,6 @@
  *
  * @link       http://www.felixwelberg.de/
  * @since      1.0.0
- *
- * @package    Extended_Post_Status
- * @subpackage Extended_Post_Status/includes
  */
 
 /**
@@ -22,8 +19,6 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    Extended_Post_Status
- * @subpackage Extended_Post_Status/includes
  * @author     Felix Welberg <felix@welberg.de>
  */
 class Extended_Post_Status
@@ -34,7 +29,6 @@ class Extended_Post_Status
      * the plugin.
      *
      * @since    1.0.0
-     * @access   protected
      * @var      Extended_Post_Status_Loader    $loader    Maintains and registers all hooks for the plugin.
      */
     protected $loader;
@@ -43,7 +37,6 @@ class Extended_Post_Status
      * The unique identifier of this plugin.
      *
      * @since    1.0.0
-     * @access   protected
      * @var      string    $plugin_name    The string used to uniquely identify this plugin.
      */
     protected $plugin_name;
@@ -52,7 +45,6 @@ class Extended_Post_Status
      * The current version of the plugin.
      *
      * @since    1.0.0
-     * @access   protected
      * @var      string    $version    The current version of the plugin.
      */
     protected $version;
@@ -93,13 +85,12 @@ class Extended_Post_Status
      * with WordPress.
      *
      * @since    1.0.0
-     * @access   private
      */
     private function load_dependencies()
     {
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-extended-post-status-loader.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-extended-post-status-i18n.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-extended-post-status-admin.php';
+        require_once plugin_dir_path(__DIR__) . 'includes/class-extended-post-status-loader.php';
+        require_once plugin_dir_path(__DIR__) . 'includes/class-extended-post-status-i18n.php';
+        require_once plugin_dir_path(__DIR__) . 'admin/class-extended-post-status-admin.php';
 
         $this->loader = new Extended_Post_Status_Loader();
     }
@@ -111,7 +102,6 @@ class Extended_Post_Status
      * with WordPress.
      *
      * @since    1.0.0
-     * @access   private
      */
     private function set_locale()
     {
@@ -125,7 +115,6 @@ class Extended_Post_Status
      * of the plugin.
      *
      * @since    1.0.0
-     * @access   private
      */
     private function define_admin_hooks()
     {

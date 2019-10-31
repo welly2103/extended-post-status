@@ -4,9 +4,6 @@
  *
  * @link       http://www.felixwelberg.de/
  * @since      1.0.0
- *
- * @package    Extended_Post_Status
- * @subpackage Extended_Post_Status/admin
  */
 
 /**
@@ -15,8 +12,6 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Extended_Post_Status
- * @subpackage Extended_Post_Status/admin
  * @author     Felix Welberg <felix@welberg.de>
  */
 class Extended_Post_Status_Admin
@@ -26,7 +21,6 @@ class Extended_Post_Status_Admin
      * The ID of this plugin.
      *
      * @since    1.0.0
-     * @access   private
      * @var      string    $plugin_name    The ID of this plugin.
      */
     private $plugin_name;
@@ -35,7 +29,6 @@ class Extended_Post_Status_Admin
      * The version of this plugin.
      *
      * @since    1.0.0
-     * @access   private
      * @var      string    $version    The current version of this plugin.
      */
     private $version;
@@ -58,7 +51,7 @@ class Extended_Post_Status_Admin
      * The trac ticket is still open and there are no new changes until now, so
      * this is just a workaround :(
      * https://core.trac.wordpress.org/ticket/12706
-     * 
+     *
      * @global type $post
      * @since    1.0.0
      */
@@ -69,20 +62,16 @@ class Extended_Post_Status_Admin
         $complete = '';
         $status = self::get_status();
         if (in_array($post->post_type, $post_types)) {
-            foreach ($status AS $single_status) {
+            foreach ($status as $single_status) {
                 if ($post->post_status == $single_status->slug) {
-                    $complete = ' selected="selected"';
-
-                    ?>
+                    $complete = ' selected="selected"'; ?>
                     <script type="text/javascript">
                         jQuery(document).ready(function () {
                             jQuery(".misc-pub-section span#post-status-display").append('<span id="post-status-display"><?php echo $single_status->name; ?></span>');
                         });
                     </script>
                     <?php
-                }
-
-                ?>
+                } ?>
                 <script type="text/javascript">
                     jQuery(document).ready(function () {
                         jQuery('select#post_status').append('<option value="<?php echo $single_status->slug; ?>" <?php echo $complete; ?>><?php echo $single_status->name; ?></option>');
@@ -91,8 +80,7 @@ class Extended_Post_Status_Admin
                 <?php
             }
         }
-        foreach ($status AS $single_status) {
-
+        foreach ($status as $single_status) {
             ?>
             <script type="text/javascript">
                 jQuery(document).ready(function () {
@@ -105,14 +93,13 @@ class Extended_Post_Status_Admin
 
     /**
      * Add the custom post type to backend post quickedit status dropdown
-     * 
+     *
      * @since    1.0.0
      */
     public function append_post_status_list_quickedit()
     {
         $status = self::get_status();
-        foreach ($status AS $single_status) {
-
+        foreach ($status as $single_status) {
             ?>
             <script type="text/javascript">
                 jQuery(document).ready(function () {
@@ -125,7 +112,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Add status to post list
-     * 
+     *
      * @global type $post
      * @param type $statuses
      * @return type
@@ -135,7 +122,7 @@ class Extended_Post_Status_Admin
     {
         global $post;
         $status = self::get_status();
-        foreach ($status AS $single_status) {
+        foreach ($status as $single_status) {
             if ($single_status->slug == $post->post_status) {
                 return [$single_status->name];
             }
@@ -145,13 +132,13 @@ class Extended_Post_Status_Admin
 
     /**
      * Add custom post type
-     * 
+     *
      * @since    1.0.0
      */
     public function register_post_status()
     {
         $status = self::get_status();
-        foreach ($status AS $single_status) {
+        foreach ($status as $single_status) {
             $term_meta = get_option("taxonomy_term_$single_status->term_id");
             $args = [
                 'label' => $single_status->name,
@@ -178,7 +165,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Add custom taxonomy
-     * 
+     *
      * @since    1.0.0
      */
     public function register_status_taxonomy()
@@ -217,7 +204,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Manipulate the taxonomy form fields
-     * 
+     *
      * @param type $tag
      * @since    1.0.0
      */
@@ -231,7 +218,7 @@ class Extended_Post_Status_Admin
             'show_in_admin_all_list' => ['label' => __('Show posts in admin all list', 'extended-post-status'), 'desc' => __('Posts/Pages with this status will listet in all posts/pages overview.', 'extended-post-status')],
             'show_in_admin_status_list' => ['label' => __('Show status in admin status list', 'extended-post-status'), 'desc' => __('Status appears in status list.', 'extended-post-status')],
         ];
-        foreach ($fields AS $key => $value) {
+        foreach ($fields as $key => $value) {
             $checked = '';
             if ($term_meta[$key] == 1) {
                 $checked = 'checked="checked"';
@@ -252,7 +239,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Save the manipulated taxonomy form fields
-     * 
+     *
      * @param type $term_id
      * @since    1.0.0
      */
@@ -263,7 +250,7 @@ class Extended_Post_Status_Admin
 
         /* Reset all custom checkbox fields */
         if (!$is_inline_edit) {
-            foreach ($fields AS $field) {
+            foreach ($fields as $field) {
                 $term_meta[$field] = 0;
             }
             update_option("taxonomy_term_$term_id", $term_meta);
@@ -286,8 +273,8 @@ class Extended_Post_Status_Admin
      * Override core field after the update of a status taxonomy
      * Used to check if the slug is longer than 20 chars, because the database
      * field for statuses is limited to 20 chars
-     * 
-     * 
+     *
+     *
      * @param type $data
      * @param type $term_id
      * @param type $taxonomy
@@ -310,7 +297,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Returns all status
-     * 
+     *
      * @return type
      * @since    1.0.0
      */
@@ -325,7 +312,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Edit the status taxonomy table
-     * 
+     *
      * @param type $columns
      * @return type
      * @since    1.0.0
@@ -343,7 +330,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Add content to new created custom column in taxonomy table
-     * 
+     *
      * @param type $content
      * @param type $column_name
      * @param type $term_id
@@ -382,7 +369,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Add status meta box to gutenberg editor
-     * 
+     *
      * @since    1.0.0
      */
     public function add_status_meta_box()
@@ -397,7 +384,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Add meta box content
-     * 
+     *
      * @global type $post
      * @since    1.0.0
      */
@@ -407,7 +394,7 @@ class Extended_Post_Status_Admin
         $returner = '';
         $statuses = self::get_all_status_array();
         $returner .= '<select name="post_status">';
-        foreach ($statuses AS $key => $value) {
+        foreach ($statuses as $key => $value) {
             if ($key == $post->post_status) {
                 $returner .= '<option value="' . $key . '" selected="selected">' . $value . '</option>';
             } else {
@@ -420,7 +407,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Get array of all statuses
-     * 
+     *
      * @return type
      * @since    1.0.0
      */
@@ -430,7 +417,7 @@ class Extended_Post_Status_Admin
         $core_statuses = get_post_statuses();
         $statuses = $core_statuses;
         $custom_statuses = self::get_status();
-        foreach ($custom_statuses AS $status) {
+        foreach ($custom_statuses as $status) {
             $statuses[$status->slug] = $status->name;
         }
         return $statuses;
@@ -438,7 +425,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Initialize the view for the overridden query
-     * 
+     *
      * @global type $pagenow
      * @since    1.0.1
      */
@@ -452,7 +439,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Override the post query
-     * 
+     *
      * @param type $query
      * @return type
      * @since    1.0.1
@@ -466,7 +453,7 @@ class Extended_Post_Status_Admin
             $statuses_show_in_admin_all_list[] = 'publish';
             $statuses_show_in_admin_all_list[] = 'draft';
             $statuses_show_in_admin_all_list[] = 'pending';
-            foreach ($statuses AS $status) {
+            foreach ($statuses as $status) {
                 $term_meta = get_option("taxonomy_term_$status->term_id");
                 if ($term_meta['show_in_admin_all_list'] == 1) {
                     $statuses_show_in_admin_all_list[] = $status->slug;
@@ -480,7 +467,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Init additional settings page params
-     * 
+     *
      * @since    1.0.4
      */
     public function settings_init()
@@ -507,7 +494,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Sanitize setting page input
-     * 
+     *
      * @param type $input
      * @return type
      * @since    1.0.4
@@ -519,7 +506,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Add description to settings page section
-     * 
+     *
      * @since    1.0.4
      */
     public function settings_section_description()
@@ -529,7 +516,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Add settings section fields
-     * 
+     *
      * @since    1.0.4
      */
     public function settings_extra_admin_menu_item_field()
@@ -544,7 +531,7 @@ class Extended_Post_Status_Admin
 
     /**
      * Add admin menu items
-     * 
+     *
      * @since    1.0.4
      */
     public function admin_menu()
@@ -557,7 +544,7 @@ class Extended_Post_Status_Admin
     /**
      * Redirects in admin context
      * - Redirect the main admin menu status page to original taxonomy page
-     * 
+     *
      * @global type $pagenow
      * @since    1.0.4
      */
@@ -573,7 +560,7 @@ class Extended_Post_Status_Admin
     /**
      * Parent file settings
      * - Used to fake the status page in main admin menu
-     * 
+     *
      * @param string $parent_file
      * @return string
      * @since    1.0.4

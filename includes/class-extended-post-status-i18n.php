@@ -7,9 +7,6 @@
  *
  * @link       http://www.felixwelberg.de/
  * @since      1.0.0
- *
- * @package    Extended_Post_Status
- * @subpackage Extended_Post_Status/includes
  */
 
 /**
@@ -19,8 +16,6 @@
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    Extended_Post_Status
- * @subpackage Extended_Post_Status/includes
  * @author     Felix Welberg <felix@welberg.de>
  */
 class Extended_Post_Status_i18n
@@ -34,7 +29,9 @@ class Extended_Post_Status_i18n
     public function load_plugin_textdomain()
     {
         load_plugin_textdomain(
-            'extended-post-status', false, dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
+            'extended-post-status',
+            false,
+            dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
         );
     }
 }

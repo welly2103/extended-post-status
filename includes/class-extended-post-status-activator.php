@@ -4,9 +4,6 @@
  *
  * @link       http://www.felixwelberg.de/
  * @since      1.0.0
- *
- * @package    Extended_Post_Status
- * @subpackage Extended_Post_Status/includes
  */
 
 /**
@@ -15,8 +12,6 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    Extended_Post_Status
- * @subpackage Extended_Post_Status/includes
  * @author     Felix Welberg <felix@welberg.de>
  */
 class Extended_Post_Status_Activator
@@ -31,6 +26,5 @@ class Extended_Post_Status_Activator
      */
     public static function activate()
     {
-        
     }
 }

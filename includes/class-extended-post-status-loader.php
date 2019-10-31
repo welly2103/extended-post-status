@@ -4,9 +4,6 @@
  *
  * @link       http://www.felixwelberg.de/
  * @since      1.0.0
- *
- * @package    Extended_Post_Status
- * @subpackage Extended_Post_Status/includes
  */
 
 /**
@@ -16,8 +13,6 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Extended_Post_Status
- * @subpackage Extended_Post_Status/includes
  * @author     Felix Welberg <felix@welberg.de>
  */
 class Extended_Post_Status_Loader
@@ -27,7 +22,6 @@ class Extended_Post_Status_Loader
      * The array of actions registered with WordPress.
      *
      * @since    1.0.0
-     * @access   protected
      * @var      array    $actions    The actions registered with WordPress to fire when the plugin loads.
      */
     protected $actions;
@@ -36,7 +30,6 @@ class Extended_Post_Status_Loader
      * The array of filters registered with WordPress.
      *
      * @since    1.0.0
-     * @access   protected
      * @var      array    $filters    The filters registered with WordPress to fire when the plugin loads.
      */
     protected $filters;
@@ -48,7 +41,6 @@ class Extended_Post_Status_Loader
      */
     public function __construct()
     {
-
         $this->actions = [];
         $this->filters = [];
     }
@@ -88,7 +80,6 @@ class Extended_Post_Status_Loader
      * collection.
      *
      * @since    1.0.0
-     * @access   private
      * @param    array                $hooks            The collection of hooks that is being registered (that is, actions or filters).
      * @param    string               $hook             The name of the WordPress filter that is being registered.
      * @param    object               $component        A reference to the instance of the object on which the filter is defined.
