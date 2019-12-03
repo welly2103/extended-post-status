@@ -64,14 +64,17 @@ class Extended_Post_Status_Admin
         if (in_array($post->post_type, $post_types)) {
             foreach ($status as $single_status) {
                 if ($post->post_status == $single_status->slug) {
-                    $complete = ' selected="selected"'; ?>
+                    $complete = ' selected="selected"';
+
+                    ?>
                     <script type="text/javascript">
                         jQuery(document).ready(function () {
                             jQuery(".misc-pub-section span#post-status-display").append('<span id="post-status-display"><?php echo $single_status->name; ?></span>');
                         });
                     </script>
-                    <?php
-                } ?>
+                <?php }
+
+                ?>
                 <script type="text/javascript">
                     jQuery(document).ready(function () {
                         jQuery('select#post_status').append('<option value="<?php echo $single_status->slug; ?>" <?php echo $complete; ?>><?php echo $single_status->name; ?></option>');
@@ -81,6 +84,7 @@ class Extended_Post_Status_Admin
             }
         }
         foreach ($status as $single_status) {
+
             ?>
             <script type="text/javascript">
                 jQuery(document).ready(function () {
@@ -100,6 +104,7 @@ class Extended_Post_Status_Admin
     {
         $status = self::get_status();
         foreach ($status as $single_status) {
+
             ?>
             <script type="text/javascript">
                 jQuery(document).ready(function () {
@@ -215,7 +220,7 @@ class Extended_Post_Status_Admin
         $term_meta = get_option("taxonomy_term_$t_id");
         $fields = [
             'public' => ['label' => __('Public', 'extended-post-status'), 'desc' => __('Posts/Pages with this status are public.', 'extended-post-status')],
-            'show_in_admin_all_list' => ['label' => __('Show posts in admin all list', 'extended-post-status'), 'desc' => __('Posts/Pages with this status will listet in all posts/pages overview.', 'extended-post-status')],
+            'show_in_admin_all_list' => ['label' => __('Show posts in admin all list', 'extended-post-status'), 'desc' => __('Posts/Pages with this status will be listed in all posts/pages overview.', 'extended-post-status')],
             'show_in_admin_status_list' => ['label' => __('Show status in admin status list', 'extended-post-status'), 'desc' => __('Status appears in status list.', 'extended-post-status')],
         ];
         foreach ($fields as $key => $value) {
@@ -394,6 +399,7 @@ class Extended_Post_Status_Admin
         $returner = '';
         $statuses = self::get_all_status_array();
         $returner .= '<select name="post_status">';
+        $returner .= '<option value="none">' . __('- Select status -', 'extended-post-status') . '</option>';
         foreach ($statuses as $key => $value) {
             if ($key == $post->post_status) {
                 $returner .= '<option value="' . $key . '" selected="selected">' . $value . '</option>';

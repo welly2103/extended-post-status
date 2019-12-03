@@ -45,6 +45,10 @@ Your posts will never be deleted, but you need to know your old status slugs onc
 
 == Changelog ==
 
+= 1.0.5 =
+* [Fixed] New posts were saved as drafts instead of published
+* [Fixed] Translation errors
+
 = 1.0.4 =
 * [Added] Settings section in "Settings > Wrtiting"
 
