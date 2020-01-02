@@ -45,6 +45,13 @@ Your posts will never be deleted, but you need to know your old status slugs onc
 
 == Changelog ==
 
+= 1.0.7 =
+* [Fixed] Label of settings doesn't work
+* [Fixed] PHP errors, wrong class declaration
+
+= 1.0.6 =
+* [Fixed] PHP errors, wrong class declaration
+
 = 1.0.5 =
 * [Fixed] New posts were saved as drafts instead of published
 * [Fixed] Translation errors

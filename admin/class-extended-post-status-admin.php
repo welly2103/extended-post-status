@@ -64,17 +64,14 @@ class Extended_Post_Status_Admin
         if (in_array($post->post_type, $post_types)) {
             foreach ($status as $single_status) {
                 if ($post->post_status == $single_status->slug) {
-                    $complete = ' selected="selected"';
-
-                    ?>
+                    $complete = ' selected="selected"'; ?>
                     <script type="text/javascript">
                         jQuery(document).ready(function () {
                             jQuery(".misc-pub-section span#post-status-display").append('<span id="post-status-display"><?php echo $single_status->name; ?></span>');
                         });
                     </script>
-                <?php }
-
-                ?>
+                <?php
+                } ?>
                 <script type="text/javascript">
                     jQuery(document).ready(function () {
                         jQuery('select#post_status').append('<option value="<?php echo $single_status->slug; ?>" <?php echo $complete; ?>><?php echo $single_status->name; ?></option>');
@@ -84,7 +81,6 @@ class Extended_Post_Status_Admin
             }
         }
         foreach ($status as $single_status) {
-
             ?>
             <script type="text/javascript">
                 jQuery(document).ready(function () {
@@ -104,7 +100,6 @@ class Extended_Post_Status_Admin
     {
         $status = self::get_status();
         foreach ($status as $single_status) {
-
             ?>
             <script type="text/javascript">
                 jQuery(document).ready(function () {
@@ -216,8 +211,11 @@ class Extended_Post_Status_Admin
     public function status_taxonomy_custom_fields($tag)
     {
         $returner = '';
-        $t_id = $tag->term_id;
-        $term_meta = get_option("taxonomy_term_$t_id");
+        $term_meta = false;
+        if (is_object($tag)) {
+            $t_id = $tag->term_id;
+            $term_meta = get_option("taxonomy_term_$t_id");
+        }
         $fields = [
             'public' => ['label' => __('Public', 'extended-post-status'), 'desc' => __('Posts/Pages with this status are public.', 'extended-post-status')],
             'show_in_admin_all_list' => ['label' => __('Show posts in admin all list', 'extended-post-status'), 'desc' => __('Posts/Pages with this status will be listed in all posts/pages overview.', 'extended-post-status')],
@@ -225,7 +223,7 @@ class Extended_Post_Status_Admin
         ];
         foreach ($fields as $key => $value) {
             $checked = '';
-            if ($term_meta[$key] == 1) {
+            if ($term_meta && $term_meta[$key] == 1) {
                 $checked = 'checked="checked"';
             }
             $returner .= '
@@ -306,7 +304,7 @@ class Extended_Post_Status_Admin
      * @return type
      * @since    1.0.0
      */
-    public function get_status()
+    public static function get_status()
     {
         $args = [
             'taxonomy' => 'status',
@@ -393,7 +391,7 @@ class Extended_Post_Status_Admin
      * @global type $post
      * @since    1.0.0
      */
-    public function status_meta_box_content()
+    public static function status_meta_box_content()
     {
         global $post;
         $returner = '';
@@ -417,7 +415,7 @@ class Extended_Post_Status_Admin
      * @return type
      * @since    1.0.0
      */
-    public function get_all_status_array()
+    public static function get_all_status_array()
     {
         $statuses = [];
         $core_statuses = get_post_statuses();
@@ -450,7 +448,7 @@ class Extended_Post_Status_Admin
      * @return type
      * @since    1.0.1
      */
-    public function override_admin_post_list($query)
+    public static function override_admin_post_list($query)
     {
         $statuses = self::get_status();
         /* Check if query has no further params */
@@ -491,7 +489,7 @@ class Extended_Post_Status_Admin
         );
         add_settings_field(
             'extended-post-status-add-extra-admin-menu-item',
-            __('Move status to main admin menu.', 'extended-post-status'),
+            '<label for="extended-post-status-add-extra-admin-menu-item">' . __('Move status to main admin menu.', 'extended-post-status') . '</label>',
             ['Extended_Post_Status_Admin', 'settings_extra_admin_menu_item_field'],
             'writing',
             'extended-post-status-settings'
@@ -505,7 +503,7 @@ class Extended_Post_Status_Admin
      * @return type
      * @since    1.0.4
      */
-    public function settings_sanitize($input)
+    public static function settings_sanitize($input)
     {
         return isset($input) ? true : false;
     }
@@ -515,7 +513,7 @@ class Extended_Post_Status_Admin
      *
      * @since    1.0.4
      */
-    public function settings_section_description()
+    public static function settings_section_description()
     {
         echo __('Settings for post status handling.', 'extended-post-status');
     }
@@ -525,12 +523,10 @@ class Extended_Post_Status_Admin
      *
      * @since    1.0.4
      */
-    public function settings_extra_admin_menu_item_field()
+    public static function settings_extra_admin_menu_item_field()
     {
         $returner = '
-            <label for="extended-post-status-add-extra-admin-menu-item">
-                <input id="extended-post-status-add-extra-admin-menu-item" type="checkbox" value="1" name="extended-post-status-add-extra-admin-menu-item"' . checked(get_option('extended-post-status-add-extra-admin-menu-item', false), true, false) . '>
-            </label>
+            <input id="extended-post-status-add-extra-admin-menu-item" type="checkbox" value="1" name="extended-post-status-add-extra-admin-menu-item"' . checked(get_option('extended-post-status-add-extra-admin-menu-item', false), true, false) . '>
         ';
         echo $returner;
     }
