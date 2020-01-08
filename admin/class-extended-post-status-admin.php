@@ -195,10 +195,8 @@ class Extended_Post_Status_Admin
             'show_ui' => true,
             'show_admin_column' => true,
             'query_var' => true,
+            'show_in_menu' => false,
         ];
-        if (get_option('extended-post-status-add-extra-admin-menu-item', false)) {
-            $args['show_in_menu'] = false;
-        }
         register_taxonomy('status', 'post', $args);
     }
 
@@ -540,6 +538,8 @@ class Extended_Post_Status_Admin
     {
         if (get_option('extended-post-status-add-extra-admin-menu-item', false)) {
             add_menu_page(__('Status', 'extended-post-status'), __('Status', 'extended-post-status'), 'publish_posts', 'extended-post-status-taxonomy', ['Extended_Post_Status_Admin', 'admin_menu_link_extended_post_status_taxonomy'], 'dashicons-post-status');
+        } else {
+            add_submenu_page('options-general.php', __('Extended Post Status', 'extended-post-status'), __('Extended Post Status', 'extended-post-status'), 'publish_posts', 'extended-post-status-taxonomy', ['Extended_Post_Status_Admin', 'admin_menu_link_extended_post_status_taxonomy']);
         }
     }
 
@@ -553,7 +553,7 @@ class Extended_Post_Status_Admin
     public function admin_redirects()
     {
         global $pagenow;
-        if ($pagenow == 'admin.php' && filter_input(INPUT_GET, 'page') == 'extended-post-status-taxonomy') {
+        if (($pagenow == 'admin.php' || $pagenow == 'options-general.php') && filter_input(INPUT_GET, 'page') == 'extended-post-status-taxonomy') {
             wp_redirect(admin_url('edit-tags.php?taxonomy=status'), 301);
             exit;
         }
@@ -569,9 +569,29 @@ class Extended_Post_Status_Admin
      */
     public function parent_file($parent_file)
     {
-        if (get_current_screen()->taxonomy == 'status' && get_option('extended-post-status-add-extra-admin-menu-item', false)) {
-            $parent_file = 'extended-post-status-taxonomy';
+        if (get_current_screen()->taxonomy == 'status') {
+            if (get_option('extended-post-status-add-extra-admin-menu-item', false)) {
+                $parent_file = 'extended-post-status-taxonomy';
+            } else {
+                $parent_file = 'options-general.php';
+            }
         }
         return $parent_file;
+    }
+
+    /**
+     * Submenu file settings
+     * - Used to fake the status page in admin submenu
+     *
+     * @param string $submenu_file
+     * @return string
+     * @since    1.0.8
+     */
+    public function submenu_file($submenu_file)
+    {
+        if (get_current_screen()->taxonomy == 'status') {
+            $submenu_file = 'extended-post-status-taxonomy';
+        }
+        return $submenu_file;
     }
 }
