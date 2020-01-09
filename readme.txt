@@ -14,7 +14,7 @@ Add new statuses to all post types (posts, pages, products, ...). You can handle
 
 This plugin provides the option to add new statuses to the backend and define the system relevant status settings. You can add/edit statuses just as categories or tags. All statuses are available for all your post types.
 
-You will find a new menu item located in the posts admin menu.
+You will find a new menu item located in the settings admin menu.
 
 == Installation ==
 
@@ -44,6 +44,12 @@ Be careful, posts without a valid status will be hidden! Just change the status 
 Your posts will never be deleted, but you need to know your old status slugs once you have deleted a status or deactivated the plugin to get your posts back.
 
 == Changelog ==
+
+= 1.0.8 =
+* [Added] Settings submenu item "Extended Post Status"
+* [Fixed] Quickedit custom status doesn't show up
+* [Fixed] Non public posts won't show up in admin "All" list
+* [Removed] Posts submenu item 'Status'
 
 = 1.0.7 =
 * [Fixed] Label of settings doesn't work

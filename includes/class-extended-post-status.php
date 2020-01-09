@@ -63,7 +63,7 @@ class Extended_Post_Status
         if (defined('EXTENDED_POST_STATUS_VERSION')) {
             $this->version = EXTENDED_POST_STATUS_VERSION;
         } else {
-            $this->version = '1.0.7';
+            $this->version = '1.0.8';
         }
         $this->plugin_name = 'extended-post-status';
 
@@ -126,7 +126,6 @@ class Extended_Post_Status
         $this->loader->add_action('admin_init', $plugin_admin, 'settings_init');
         $this->loader->add_action('admin_init', $plugin_admin, 'admin_redirects');
         $this->loader->add_action('admin_menu', $plugin_admin, 'admin_menu');
-        $this->loader->add_action('parent_file', $plugin_admin, 'parent_file');
         $this->loader->add_action('admin_footer-post.php', $plugin_admin, 'append_post_status_list');
         $this->loader->add_action('admin_footer-post-new.php', $plugin_admin, 'append_post_status_list');
         $this->loader->add_action('admin_footer-edit.php', $plugin_admin, 'append_post_status_list_quickedit');
@@ -138,6 +137,8 @@ class Extended_Post_Status
         $this->loader->add_action('manage_edit-status_columns', $plugin_admin, 'edit_status_taxonomy_columns');
         $this->loader->add_action('add_meta_boxes', $plugin_admin, 'add_status_meta_box');
 
+        $this->loader->add_filter('parent_file', $plugin_admin, 'parent_file');
+        $this->loader->add_filter('submenu_file', $plugin_admin, 'submenu_file');
         $this->loader->add_filter('wp_update_term_data', $plugin_admin, 'override_status_taxonomy_on_save', 10, 4);
         $this->loader->add_filter('manage_status_custom_column', $plugin_admin, 'add_status_taxonomy_columns_content', 10, 3);
     }

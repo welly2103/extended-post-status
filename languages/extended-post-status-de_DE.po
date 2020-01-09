@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Extended post status\n"
-"POT-Creation-Date: 2019-12-03 12:02+0100\n"
-"PO-Revision-Date: 2019-12-03 12:03+0100\n"
+"POT-Creation-Date: 2020-01-09 14:27+0100\n"
+"PO-Revision-Date: 2020-01-09 14:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -15,127 +15,128 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_x\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-extended-post-status-admin.php:179
-#: admin/class-extended-post-status-admin.php:180
-#: admin/class-extended-post-status-admin.php:385
-#: admin/class-extended-post-status-admin.php:546
+#: admin/class-extended-post-status-admin.php:174
+#: admin/class-extended-post-status-admin.php:175
+#: admin/class-extended-post-status-admin.php:383
 msgid "Status"
 msgstr "Status"
 
-#: admin/class-extended-post-status-admin.php:181
+#: admin/class-extended-post-status-admin.php:176
 msgid "Statuses"
 msgstr "Status"
 
-#: admin/class-extended-post-status-admin.php:182
+#: admin/class-extended-post-status-admin.php:177
 msgid "All statuses"
 msgstr "Alle Status"
 
-#: admin/class-extended-post-status-admin.php:183
+#: admin/class-extended-post-status-admin.php:178
 msgid "Edit status"
 msgstr "Status bearbeiten"
 
-#: admin/class-extended-post-status-admin.php:184
+#: admin/class-extended-post-status-admin.php:179
 msgid "View status"
 msgstr "Status anzeigen"
 
-#: admin/class-extended-post-status-admin.php:185
+#: admin/class-extended-post-status-admin.php:180
 msgid "Update status"
 msgstr "Status aktualisieren"
 
-#: admin/class-extended-post-status-admin.php:186
+#: admin/class-extended-post-status-admin.php:181
 msgid "Add new status"
 msgstr "Neuen Status hinzufügen"
 
-#: admin/class-extended-post-status-admin.php:187
+#: admin/class-extended-post-status-admin.php:182
 msgid "Parent status"
 msgstr "Elternstatus"
 
-#: admin/class-extended-post-status-admin.php:188
+#: admin/class-extended-post-status-admin.php:183
 msgid "Parent status:"
 msgstr "Elternstatus:"
 
-#: admin/class-extended-post-status-admin.php:189
+#: admin/class-extended-post-status-admin.php:184
 msgid "New status name"
 msgstr "Neuer Statusname"
 
-#: admin/class-extended-post-status-admin.php:190
+#: admin/class-extended-post-status-admin.php:185
 msgid "Search statuses"
 msgstr "Status durchsuchen"
 
-#: admin/class-extended-post-status-admin.php:191
+#: admin/class-extended-post-status-admin.php:186
 msgid "Popular statuses"
 msgstr "Beliebte Status"
 
-#: admin/class-extended-post-status-admin.php:192
+#: admin/class-extended-post-status-admin.php:187
 msgid "Separate status with commas"
 msgstr "Status mit Kommata trennen"
 
-#: admin/class-extended-post-status-admin.php:193
+#: admin/class-extended-post-status-admin.php:188
 msgid "Add or remove status"
 msgstr "Status hinzufügen oder bearbeiten"
 
-#: admin/class-extended-post-status-admin.php:194
+#: admin/class-extended-post-status-admin.php:189
 msgid "Choose from most used statuses"
 msgstr "Von meistbenutzten Status wählen"
 
-#: admin/class-extended-post-status-admin.php:195
+#: admin/class-extended-post-status-admin.php:190
 msgid "No statuses found"
 msgstr "Keine Status gefunden"
 
-#: admin/class-extended-post-status-admin.php:196
+#: admin/class-extended-post-status-admin.php:191
 msgid "← Back to status"
 msgstr "← Zurück zu Status"
 
-#: admin/class-extended-post-status-admin.php:222
-#: admin/class-extended-post-status-admin.php:352
+#: admin/class-extended-post-status-admin.php:219
+#: admin/class-extended-post-status-admin.php:349
 msgid "Public"
 msgstr "Veröffentlicht"
 
-#: admin/class-extended-post-status-admin.php:222
+#: admin/class-extended-post-status-admin.php:219
 msgid "Posts/Pages with this status are public."
 msgstr "Beiträge mit diesem Status sind öffentlich sichtbar."
 
-#: admin/class-extended-post-status-admin.php:223
-msgid "Show posts in admin all list"
+#: admin/class-extended-post-status-admin.php:220
+msgid "Show posts in admin \"All\" list"
 msgstr "Zeige Beiträge in Admin \"Alle\" Liste"
 
-#: admin/class-extended-post-status-admin.php:223
+#: admin/class-extended-post-status-admin.php:220
 msgid "Posts/Pages with this status will be listed in all posts/pages overview."
 msgstr "Beiträge/Seiten mit diesem Status werden in \"Alle\" aufgelistet."
 
-#: admin/class-extended-post-status-admin.php:224
+#: admin/class-extended-post-status-admin.php:221
 msgid "Show status in admin status list"
 msgstr "Zeige Status in Admin Statusliste"
 
-#: admin/class-extended-post-status-admin.php:224
+#: admin/class-extended-post-status-admin.php:221
 msgid "Status appears in status list."
 msgstr "Der Status erscheint in der Statusliste."
 
-#: admin/class-extended-post-status-admin.php:330
+#: admin/class-extended-post-status-admin.php:327
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: admin/class-extended-post-status-admin.php:331
+#: admin/class-extended-post-status-admin.php:328
 msgid "Posts"
 msgstr "Beiträge"
 
-#: admin/class-extended-post-status-admin.php:332
+#: admin/class-extended-post-status-admin.php:329
 msgid "Pages"
 msgstr "Seiten"
 
-#: admin/class-extended-post-status-admin.php:355
-msgid "Show in admin all list"
+#: admin/class-extended-post-status-admin.php:352
+msgid "Show in admin \"All\" list"
 msgstr "Zeige in Admin \"Alle\" Liste"
 
-#: admin/class-extended-post-status-admin.php:358
+#: admin/class-extended-post-status-admin.php:355
 msgid "Show in admin status list"
 msgstr "Zeige in Admin Statusliste"
 
-#: admin/class-extended-post-status-admin.php:402
+#: admin/class-extended-post-status-admin.php:400
 msgid "- Select status -"
 msgstr "- Status auswählen -"
 
-#: admin/class-extended-post-status-admin.php:488 extended-post-status.php:22
+#: admin/class-extended-post-status-admin.php:488
+#: admin/class-extended-post-status-admin.php:544
+#: admin/class-extended-post-status-admin.php:546 extended-post-status.php:22
 msgid "Extended Post Status"
 msgstr "Erweiterte Beitragsstatus"
 
