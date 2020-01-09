@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Extended post status\n"
-"POT-Creation-Date: 2020-01-09 14:19+0100\n"
-"PO-Revision-Date: 2020-01-09 14:19+0100\n"
+"POT-Creation-Date: 2020-01-09 14:27+0100\n"
+"PO-Revision-Date: 2020-01-09 14:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -123,7 +123,7 @@ msgid "Pages"
 msgstr "Seiten"
 
 #: admin/class-extended-post-status-admin.php:352
-msgid "Show in admin all list"
+msgid "Show in admin \"All\" list"
 msgstr "Zeige in Admin \"Alle\" Liste"
 
 #: admin/class-extended-post-status-admin.php:355

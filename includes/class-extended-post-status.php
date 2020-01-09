@@ -63,7 +63,7 @@ class Extended_Post_Status
         if (defined('EXTENDED_POST_STATUS_VERSION')) {
             $this->version = EXTENDED_POST_STATUS_VERSION;
         } else {
-            $this->version = '1.0.7';
+            $this->version = '1.0.8';
         }
         $this->plugin_name = 'extended-post-status';
 

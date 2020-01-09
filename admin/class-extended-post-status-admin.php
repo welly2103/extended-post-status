@@ -349,7 +349,7 @@ class Extended_Post_Status_Admin
                 $content .= __('Public', 'extended-post-status') . ', ';
             }
             if (array_key_exists('show_in_admin_all_list', $term_meta) && $term_meta['show_in_admin_all_list'] == 1) {
-                $content .= __('Show in admin all list', 'extended-post-status') . ', ';
+                $content .= __('Show in admin "All" list', 'extended-post-status') . ', ';
             }
             if (array_key_exists('show_in_admin_status_list', $term_meta) && $term_meta['show_in_admin_status_list'] == 1) {
                 $content .= __('Show in admin status list', 'extended-post-status') . ', ';
