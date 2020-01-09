@@ -103,7 +103,7 @@ class Extended_Post_Status_Admin
             ?>
             <script type="text/javascript">
                 jQuery(document).ready(function () {
-                    jQuery('select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>" <?php echo $complete; ?>><?php echo $single_status->name; ?></option>');
+                    jQuery('select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>"><?php echo $single_status->name; ?></option>');
                 });
             </script>
             <?php
@@ -196,6 +196,7 @@ class Extended_Post_Status_Admin
             'show_admin_column' => true,
             'query_var' => true,
             'show_in_menu' => false,
+            'meta_box_cb' => false,
         ];
         register_taxonomy('status', 'post', $args);
     }
@@ -216,7 +217,7 @@ class Extended_Post_Status_Admin
         }
         $fields = [
             'public' => ['label' => __('Public', 'extended-post-status'), 'desc' => __('Posts/Pages with this status are public.', 'extended-post-status')],
-            'show_in_admin_all_list' => ['label' => __('Show posts in admin all list', 'extended-post-status'), 'desc' => __('Posts/Pages with this status will be listed in all posts/pages overview.', 'extended-post-status')],
+            'show_in_admin_all_list' => ['label' => __('Show posts in admin "All" list', 'extended-post-status'), 'desc' => __('Posts/Pages with this status will be listed in all posts/pages overview.', 'extended-post-status')],
             'show_in_admin_status_list' => ['label' => __('Show status in admin status list', 'extended-post-status'), 'desc' => __('Status appears in status list.', 'extended-post-status')],
         ];
         foreach ($fields as $key => $value) {
@@ -376,7 +377,8 @@ class Extended_Post_Status_Admin
     public function add_status_meta_box()
     {
         $screens = ['post', 'page'];
-        if (function_exists('register_block_type')) {
+        $is_block_editor = get_current_screen()->is_block_editor();
+        if ($is_block_editor) {
             foreach ($screens as $screen) {
                 add_meta_box('extended_post_status', __('Status', 'extended-post-status'), ['Extended_Post_Status_Admin', 'status_meta_box_content'], $screen, 'side', 'high');
             }
@@ -450,7 +452,9 @@ class Extended_Post_Status_Admin
     {
         $statuses = self::get_status();
         /* Check if query has no further params */
-        if ($query->query == ['post_type' => 'post', 'posts_per_page' => $query->query['posts_per_page']] || $query->query == ['post_type' => 'page', 'posts_per_page' => $query->query['posts_per_page']]) {
+        if (
+            (array_key_exists('post_status', $query->query) && empty($query->query['post_status']))
+        ) {
             $statuses_show_in_admin_all_list = [];
             $statuses_show_in_admin_all_list[] = 'publish';
             $statuses_show_in_admin_all_list[] = 'draft';
@@ -537,7 +541,7 @@ class Extended_Post_Status_Admin
     public function admin_menu()
     {
         if (get_option('extended-post-status-add-extra-admin-menu-item', false)) {
-            add_menu_page(__('Status', 'extended-post-status'), __('Status', 'extended-post-status'), 'publish_posts', 'extended-post-status-taxonomy', ['Extended_Post_Status_Admin', 'admin_menu_link_extended_post_status_taxonomy'], 'dashicons-post-status');
+            add_menu_page(__('Extended Post Status', 'extended-post-status'), __('Extended Post Status', 'extended-post-status'), 'publish_posts', 'extended-post-status-taxonomy', ['Extended_Post_Status_Admin', 'admin_menu_link_extended_post_status_taxonomy'], 'dashicons-post-status');
         } else {
             add_submenu_page('options-general.php', __('Extended Post Status', 'extended-post-status'), __('Extended Post Status', 'extended-post-status'), 'publish_posts', 'extended-post-status-taxonomy', ['Extended_Post_Status_Admin', 'admin_menu_link_extended_post_status_taxonomy']);
         }
