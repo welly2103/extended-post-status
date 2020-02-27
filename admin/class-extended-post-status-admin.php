@@ -122,9 +122,11 @@ class Extended_Post_Status_Admin
     {
         global $post;
         $status = self::get_status();
-        foreach ($status as $single_status) {
-            if ($single_status->slug == $post->post_status) {
-                return [$single_status->name];
+        if ($post) {
+            foreach ($status as $single_status) {
+                if ($single_status->slug == $post->post_status) {
+                    return [$single_status->name];
+                }
             }
         }
         return $statuses;

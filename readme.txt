@@ -45,6 +45,9 @@ Your posts will never be deleted, but you need to know your old status slugs onc
 
 == Changelog ==
 
+= 1.0.9 =
+* [Fixed] PHP error on accessing a non-object on admin menu page
+
 = 1.0.8 =
 * [Added] Settings submenu item "Extended Post Status"
 * [Fixed] Quickedit custom status doesn't show up
