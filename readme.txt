@@ -2,9 +2,9 @@
 Contributors: welly2103
 Tags: status, post, publishing, extended, statuses, page, post type
 Requires at least: 4.9.8
-Tested up to: 5.3
+Tested up to: 5.4
 Requires PHP: 7.2
-Stable tag: 5.3
+Stable tag: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
