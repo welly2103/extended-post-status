@@ -59,10 +59,10 @@ class Extended_Post_Status_Admin
     {
         global $post;
         $post_types = get_post_types();
-        $complete = '';
         $status = self::get_status();
         if (in_array($post->post_type, $post_types)) {
             foreach ($status as $single_status) {
+                $complete = '';
                 if ($post->post_status == $single_status->slug) {
                     $complete = ' selected="selected"'; ?>
                     <script type="text/javascript">
