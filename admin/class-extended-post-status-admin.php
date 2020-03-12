@@ -62,7 +62,12 @@ class Extended_Post_Status_Admin
         $status = self::get_status();
         if (in_array($post->post_type, $post_types)) {
             foreach ($status as $single_status) {
+                $term_meta = get_option("taxonomy_term_$single_status->term_id");
                 $complete = '';
+                $hidden = 0;
+                if (array_key_exists('hide_in_drop_down', $term_meta) && $term_meta['hide_in_drop_down'] == 1) {
+                    $hidden = 1;
+                }
                 if ($post->post_status == $single_status->slug) {
                     $complete = ' selected="selected"'; ?>
                     <script type="text/javascript">
@@ -71,23 +76,32 @@ class Extended_Post_Status_Admin
                         });
                     </script>
                 <?php
-                } ?>
+                }
+                if ($hidden == 0 || $post->post_status == $single_status->slug) { ?>
                 <script type="text/javascript">
                     jQuery(document).ready(function () {
                         jQuery('select#post_status').append('<option value="<?php echo $single_status->slug; ?>" <?php echo $complete; ?>><?php echo $single_status->name; ?></option>');
                     });
                 </script>
                 <?php
+                }
             }
         }
         foreach ($status as $single_status) {
-            ?>
-            <script type="text/javascript">
-                jQuery(document).ready(function () {
-                    jQuery('select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>"><?php echo $single_status->name; ?></option>');
-                });
-            </script>
-            <?php
+            $term_meta = get_option("taxonomy_term_$single_status->term_id");
+            $hidden = 0;
+            if (array_key_exists('hide_in_drop_down', $term_meta) && $term_meta['hide_in_drop_down'] == 1) {
+                $hidden = 1;
+            }
+            if ($hidden == 0) {
+                ?>
+                <script type="text/javascript">
+                    jQuery(document).ready(function () {
+                        jQuery('select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>"><?php echo $single_status->name; ?></option>');
+                    });
+                </script>
+                <?php
+            }
         }
     }
 
@@ -100,13 +114,20 @@ class Extended_Post_Status_Admin
     {
         $status = self::get_status();
         foreach ($status as $single_status) {
-            ?>
-            <script type="text/javascript">
-                jQuery(document).ready(function () {
-                    jQuery('select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>"><?php echo $single_status->name; ?></option>');
-                });
-            </script>
-            <?php
+            $term_meta = get_option("taxonomy_term_$single_status->term_id");
+            $hidden = 0;
+            if (array_key_exists('hide_in_drop_down', $term_meta) && $term_meta['hide_in_drop_down'] == 1) {
+                $hidden = 1;
+            } ?>
+                <script type="text/javascript">
+                    jQuery(document).ready(function () {
+                        jQuery('select[name="_status"]').each(function() {
+                            console.log(jQuery(this).select);
+                        });
+                        jQuery('select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>"><?php echo $single_status->name; ?></option>');
+                    });
+                </script>
+                <?php
         }
     }
 
@@ -160,6 +181,11 @@ class Extended_Post_Status_Admin
                 $args['show_in_admin_status_list'] = true;
             } else {
                 $args['show_in_admin_status_list'] = false;
+            }
+            if ($term_meta['hide_in_drop_down'] == 1) {
+                $args['hide_in_drop_down'] = true;
+            } else {
+                $args['hide_in_drop_down'] = false;
             }
             register_post_status($single_status->slug, $args);
         }
@@ -221,6 +247,7 @@ class Extended_Post_Status_Admin
             'public' => ['label' => __('Public', 'extended-post-status'), 'desc' => __('Posts/Pages with this status are public.', 'extended-post-status')],
             'show_in_admin_all_list' => ['label' => __('Show posts in admin "All" list', 'extended-post-status'), 'desc' => __('Posts/Pages with this status will be listed in all posts/pages overview.', 'extended-post-status')],
             'show_in_admin_status_list' => ['label' => __('Show status in admin status list', 'extended-post-status'), 'desc' => __('Status appears in status list.', 'extended-post-status')],
+            'hide_in_drop_down' => ['label' => __('Hide status in admin drop downs', 'extended-post-status'), 'desc' => __('Status is not selectable in the admin dropdowns.', 'extended-post-status')],
         ];
         foreach ($fields as $key => $value) {
             $checked = '';
@@ -249,7 +276,7 @@ class Extended_Post_Status_Admin
      */
     public function save_status_taxonomy_custom_fields($term_id)
     {
-        $fields = ['public', 'show_in_admin_all_list', 'show_in_admin_status_list'];
+        $fields = ['public', 'show_in_admin_all_list', 'show_in_admin_status_list', 'hide_in_drop_down'];
         $is_inline_edit = filter_input(INPUT_POST, '_inline_edit');
 
         /* Reset all custom checkbox fields */
@@ -356,6 +383,9 @@ class Extended_Post_Status_Admin
             if (array_key_exists('show_in_admin_status_list', $term_meta) && $term_meta['show_in_admin_status_list'] == 1) {
                 $content .= __('Show in admin status list', 'extended-post-status') . ', ';
             }
+            if (array_key_exists('hide_in_drop_down', $term_meta) && $term_meta['hide_in_drop_down'] == 1) {
+                $content .= __('Hide in admin drop downs', 'extended-post-status') . ', ';
+            }
             $content = rtrim($content, ', ');
         }
         if ('count_posts' == $column_name) {
@@ -401,10 +431,18 @@ class Extended_Post_Status_Admin
         $returner .= '<select name="post_status">';
         $returner .= '<option value="none">' . __('- Select status -', 'extended-post-status') . '</option>';
         foreach ($statuses as $key => $value) {
+            $term = get_term_by('slug', $key, 'status');
+            $term_meta = get_option("taxonomy_term_$term->term_id");
+            $hidden = 0;
+            if ($term && array_key_exists('hide_in_drop_down', $term_meta) && $term_meta['hide_in_drop_down'] == 1) {
+                $hidden = 1;
+            }
             if ($key == $post->post_status) {
                 $returner .= '<option value="' . $key . '" selected="selected">' . $value . '</option>';
             } else {
-                $returner .= '<option value="' . $key . '">' . $value . '</option>';
+                if ($hidden == 0) {
+                    $returner .= '<option value="' . $key . '">' . $value . '</option>';
+                }
             }
         }
         $returner .= '</select>';

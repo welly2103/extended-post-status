@@ -43,7 +43,15 @@ https://core.trac.wordpress.org/ticket/12706
 Be careful, posts without a valid status will be hidden! Just change the status of your post with a custom status to a system status (e.g. publish or draft) before you delete a custom status or deactivate the plugin.
 Your posts will never be deleted, but you need to know your old status slugs once you have deleted a status or deactivated the plugin to get your posts back.
 
+= Why is a hidden status still visible in dropdowns? =
+
+The "Hide in admin drop downs" option only hides the status if the current post doesn't have the status. As long as your post has the hidden status, the drop down will still show it.
+
 == Changelog ==
+
+= 1.0.10 =
+* [Added] Hide status in admin drop downs
+* [Fixed] Selected custom statuses will auto select other custom statuses in admin drop downs.
 
 = 1.0.9 =
 * [Fixed] PHP error on accessing a non-object on admin menu page
