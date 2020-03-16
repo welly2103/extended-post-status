@@ -121,14 +121,29 @@ class Extended_Post_Status_Admin
             } ?>
                 <script type="text/javascript">
                     jQuery(document).ready(function () {
-                        jQuery('select[name="_status"]').each(function() {
-                            console.log(jQuery(this).select);
-                        });
-                        jQuery('select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>"><?php echo $single_status->name; ?></option>');
+                        jQuery('.quick-edit-row select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>" class="hidden-<?php echo $hidden; ?>"><?php echo $single_status->name; ?></option>');
                     });
                 </script>
                 <?php
-        }
+        } ?>
+                <script type="text/javascript">
+                    jQuery('#the-list').bind('DOMSubtreeModified', postListUpdated);
+                    
+                    function postListUpdated() {
+                        // Wait for the quick-edit dom to change
+                        setTimeout(function(){ 
+                            var post_quickedit_tr_id = jQuery('.inline-editor').attr('id');
+                            var post_edit_tr = post_quickedit_tr_id.replace("edit", "post");
+                            jQuery('.quick-edit-row select[name="_status"] option').each(function() {
+                                jQuery(this).show();
+                                if(jQuery(this).hasClass('hidden-1') && !jQuery('#'+post_edit_tr).hasClass('status-'+jQuery(this).val())) {
+                                    jQuery(this).hide();
+                                }
+                            });
+                        }, 100);
+                    }
+                </script>
+        <?php
     }
 
     /**
