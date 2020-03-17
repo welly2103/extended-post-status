@@ -121,6 +121,7 @@ class Extended_Post_Status_Admin
             } ?>
                 <script type="text/javascript">
                     jQuery(document).ready(function () {
+                        jQuery('#bulk-edit select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>" class="hidden-<?php echo $hidden; ?>"><?php echo $single_status->name; ?></option>');
                         jQuery('.quick-edit-row select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>" class="hidden-<?php echo $hidden; ?>"><?php echo $single_status->name; ?></option>');
                     });
                 </script>
@@ -137,6 +138,12 @@ class Extended_Post_Status_Admin
                             jQuery('.quick-edit-row select[name="_status"] option').each(function() {
                                 jQuery(this).show();
                                 if(jQuery(this).hasClass('hidden-1') && !jQuery('#'+post_edit_tr).hasClass('status-'+jQuery(this).val())) {
+                                    jQuery(this).hide();
+                                }
+                            });
+                            jQuery('#bulk-edit select[name="_status"] option').each(function() {
+                                jQuery(this).show();
+                                if(jQuery(this).hasClass('hidden-1')) {
                                     jQuery(this).hide();
                                 }
                             });

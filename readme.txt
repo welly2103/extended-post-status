@@ -49,6 +49,9 @@ The "Hide in admin drop downs" option only hides the status if the current post 
 
 == Changelog ==
 
+= 1.0.11 =
+* [Fixed] Enable bulk editing of custom statuses.
+
 = 1.0.10 =
 * [Added] Hide status in admin drop downs
 * [Fixed] Selected custom statuses will auto select other custom statuses in admin drop downs.
