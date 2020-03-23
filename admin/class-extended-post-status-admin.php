@@ -413,12 +413,20 @@ class Extended_Post_Status_Admin
         if ('count_posts' == $column_name) {
             $count = wp_count_posts('post');
             $slug = $term->slug;
-            $content .= '<a href="edit.php?post_status=' . $slug . '&post_type=post" target="_self">' . $count->$slug . '</a>';
+            $count_posts = 0;
+            if (property_exists($count, $slug)) {
+                $count_posts = $count->$slug;
+            }
+            $content .= '<a href="edit.php?post_status=' . $slug . '&post_type=post" target="_self">' . $count_posts . '</a>';
         }
         if ('count_pages' == $column_name) {
             $count = wp_count_posts('page');
             $slug = $term->slug;
-            $content .= '<a href="edit.php?post_status=' . $slug . '&post_type=page" target="_self">' . $count->$slug . '</a>';
+            $count_pages = 0;
+            if (property_exists($count, $slug)) {
+                $count_pages = $count->$slug;
+            }
+            $content .= '<a href="edit.php?post_status=' . $slug . '&post_type=page" target="_self">' . $count_pages . '</a>';
         }
         return $content;
     }
