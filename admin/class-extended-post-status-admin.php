@@ -189,22 +189,22 @@ class Extended_Post_Status_Admin
                 'label' => $single_status->name,
                 'label_count' => _n_noop($single_status->name . ' <span class="count">(%s)</span>', $single_status->name . ' <span class="count">(%s)</span>'),
             ];
-            if ($term_meta['public'] == 1) {
+            if (array_key_exists('public', $term_meta) && $term_meta['public'] == 1) {
                 $args['public'] = true;
             } else {
                 $args['public'] = false;
             }
-            if ($term_meta['show_in_admin_all_list'] == 1) {
+            if (array_key_exists('show_in_admin_all_list', $term_meta) && $term_meta['show_in_admin_all_list'] == 1) {
                 $args['show_in_admin_all_list'] = true;
             } else {
                 $args['show_in_admin_all_list'] = false;
             }
-            if ($term_meta['show_in_admin_status_list'] == 1) {
+            if (array_key_exists('show_in_admin_status_list', $term_meta) && $term_meta['show_in_admin_status_list'] == 1) {
                 $args['show_in_admin_status_list'] = true;
             } else {
                 $args['show_in_admin_status_list'] = false;
             }
-            if ($term_meta['hide_in_drop_down'] == 1) {
+            if (array_key_exists('hide_in_drop_down', $term_meta) && $term_meta['hide_in_drop_down'] == 1) {
                 $args['hide_in_drop_down'] = true;
             } else {
                 $args['hide_in_drop_down'] = false;
@@ -478,7 +478,7 @@ class Extended_Post_Status_Admin
         $returner .= '</select>';
         echo $returner;
     }
-
+    
     /**
      * Get array of all statuses
      *
