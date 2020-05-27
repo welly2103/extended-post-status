@@ -75,15 +75,16 @@ class Extended_Post_Status_Admin
                             jQuery(".misc-pub-section span#post-status-display").append('<span id="post-status-display"><?php echo $single_status->name; ?></span>');
                         });
                     </script>
-                <?php
+                    <?php
                 }
-                if ($hidden == 0 || $post->post_status == $single_status->slug) { ?>
-                <script type="text/javascript">
-                    jQuery(document).ready(function () {
-                        jQuery('select#post_status').append('<option value="<?php echo $single_status->slug; ?>" <?php echo $complete; ?>><?php echo $single_status->name; ?></option>');
-                    });
-                </script>
-                <?php
+                if ($hidden == 0 || $post->post_status == $single_status->slug) {
+                    ?>
+                    <script type="text/javascript">
+                        jQuery(document).ready(function () {
+                            jQuery('select#post_status').append('<option value="<?php echo $single_status->slug; ?>" <?php echo $complete; ?>><?php echo $single_status->name; ?></option>');
+                        });
+                    </script>
+                    <?php
                 }
             }
         }
@@ -119,37 +120,37 @@ class Extended_Post_Status_Admin
             if (array_key_exists('hide_in_drop_down', $term_meta) && $term_meta['hide_in_drop_down'] == 1) {
                 $hidden = 1;
             } ?>
-                <script type="text/javascript">
-                    jQuery(document).ready(function () {
-                        jQuery('#bulk-edit select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>" class="hidden-<?php echo $hidden; ?>"><?php echo $single_status->name; ?></option>');
-                        jQuery('.quick-edit-row select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>" class="hidden-<?php echo $hidden; ?>"><?php echo $single_status->name; ?></option>');
-                    });
-                </script>
-                <?php
+            <script type="text/javascript">
+                jQuery(document).ready(function () {
+                    jQuery('#bulk-edit select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>" class="hidden-<?php echo $hidden; ?>"><?php echo $single_status->name; ?></option>');
+                    jQuery('.quick-edit-row select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>" class="hidden-<?php echo $hidden; ?>"><?php echo $single_status->name; ?></option>');
+                });
+            </script>
+        <?php
         } ?>
-                <script type="text/javascript">
-                    jQuery('#the-list').bind('DOMSubtreeModified', postListUpdated);
-                    
-                    function postListUpdated() {
-                        // Wait for the quick-edit dom to change
-                        setTimeout(function(){ 
-                            var post_quickedit_tr_id = jQuery('.inline-editor').attr('id');
-                            var post_edit_tr = post_quickedit_tr_id.replace("edit", "post");
-                            jQuery('.quick-edit-row select[name="_status"] option').each(function() {
-                                jQuery(this).show();
-                                if(jQuery(this).hasClass('hidden-1') && !jQuery('#'+post_edit_tr).hasClass('status-'+jQuery(this).val())) {
-                                    jQuery(this).hide();
-                                }
-                            });
-                            jQuery('#bulk-edit select[name="_status"] option').each(function() {
-                                jQuery(this).show();
-                                if(jQuery(this).hasClass('hidden-1')) {
-                                    jQuery(this).hide();
-                                }
-                            });
-                        }, 100);
-                    }
-                </script>
+        <script type="text/javascript">
+            jQuery('#the-list').bind('DOMSubtreeModified', postListUpdated);
+
+            function postListUpdated() {
+                // Wait for the quick-edit dom to change
+                setTimeout(function () {
+                    var post_quickedit_tr_id = jQuery('.inline-editor').attr('id');
+                    var post_edit_tr = post_quickedit_tr_id.replace("edit", "post");
+                    jQuery('.quick-edit-row select[name="_status"] option').each(function () {
+                        jQuery(this).show();
+                        if (jQuery(this).hasClass('hidden-1') && !jQuery('#' + post_edit_tr).hasClass('status-' + jQuery(this).val())) {
+                            jQuery(this).hide();
+                        }
+                    });
+                    jQuery('#bulk-edit select[name="_status"] option').each(function () {
+                        jQuery(this).show();
+                        if (jQuery(this).hasClass('hidden-1')) {
+                            jQuery(this).hide();
+                        }
+                    });
+                }, 100);
+            }
+        </script>
         <?php
     }
 
@@ -458,7 +459,7 @@ class Extended_Post_Status_Admin
         global $post;
         $returner = '';
         $statuses = self::get_all_status_array();
-        $returner .= '<select name="post_status">';
+        $returner .= '<select name="post_status_">';
         $returner .= '<option value="none">' . __('- Select status -', 'extended-post-status') . '</option>';
         foreach ($statuses as $key => $value) {
             $term = get_term_by('slug', $key, 'status');
@@ -478,7 +479,7 @@ class Extended_Post_Status_Admin
         $returner .= '</select>';
         echo $returner;
     }
-    
+
     /**
      * Get array of all statuses
      *
@@ -667,5 +668,22 @@ class Extended_Post_Status_Admin
             $submenu_file = 'extended-post-status-taxonomy';
         }
         return $submenu_file;
+    }
+
+    /**
+     * Override the core status field with the custom status field
+     * - If the post is getting trashed, don't do this!
+     *
+     * @param type $data
+     * @param type $postarr
+     * @return type
+     * @since    1.0.13
+     */
+    public function wp_insert_post_data($data, $postarr)
+    {
+        if ($data['post_status'] != 'trash' && $postarr['post_status_']) {
+            $data['post_status'] = $postarr['post_status_'];
+        }
+        return $data;
     }
 }
