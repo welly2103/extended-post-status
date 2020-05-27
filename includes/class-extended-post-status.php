@@ -63,7 +63,7 @@ class Extended_Post_Status
         if (defined('EXTENDED_POST_STATUS_VERSION')) {
             $this->version = EXTENDED_POST_STATUS_VERSION;
         } else {
-            $this->version = '1.0.12';
+            $this->version = '1.0.13';
         }
         $this->plugin_name = 'extended-post-status';
 
@@ -141,6 +141,7 @@ class Extended_Post_Status
         $this->loader->add_filter('submenu_file', $plugin_admin, 'submenu_file');
         $this->loader->add_filter('wp_update_term_data', $plugin_admin, 'override_status_taxonomy_on_save', 10, 4);
         $this->loader->add_filter('manage_status_custom_column', $plugin_admin, 'add_status_taxonomy_columns_content', 10, 3);
+        $this->loader->add_filter('wp_insert_post_data', $plugin_admin, 'wp_insert_post_data', 99, 2);
     }
 
     /**

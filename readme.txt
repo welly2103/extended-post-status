@@ -49,6 +49,9 @@ The "Hide in admin drop downs" option only hides the status if the current post 
 
 == Changelog ==
 
+= 1.0.13 =
+* [Fixed] Trashing posts inside the posts editor is not possible
+
 = 1.0.12 =
 * [Fixed] PHP 7.4 access of non existing array object bug
 
