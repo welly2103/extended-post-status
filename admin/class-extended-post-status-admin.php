@@ -675,6 +675,7 @@ class Extended_Post_Status_Admin
     /**
      * Override the core status field with the custom status field
      * - If the post is getting trashed, don't do this!
+     * - If the post is a planned post for the future, don't do this!
      *
      * @param type $data
      * @param type $postarr
@@ -683,7 +684,7 @@ class Extended_Post_Status_Admin
      */
     public function wp_insert_post_data($data, $postarr)
     {
-        if ($data['post_status'] != 'trash' && $postarr['post_status_']) {
+        if ($data['post_status'] != 'trash' && $data['post_status'] != 'future' && $postarr['post_status_']) {
             $data['post_status'] = $postarr['post_status_'];
         }
         return $data;
