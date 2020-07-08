@@ -530,6 +530,8 @@ class Extended_Post_Status_Admin
             $statuses_show_in_admin_all_list[] = 'publish';
             $statuses_show_in_admin_all_list[] = 'draft';
             $statuses_show_in_admin_all_list[] = 'pending';
+            $statuses_show_in_admin_all_list[] = 'future';
+            $statuses_show_in_admin_all_list[] = 'private';
             foreach ($statuses as $status) {
                 $term_meta = get_option("taxonomy_term_$status->term_id");
                 if ($term_meta['show_in_admin_all_list'] == 1) {
