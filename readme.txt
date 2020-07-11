@@ -49,6 +49,10 @@ The "Hide in admin drop downs" option only hides the status if the current post 
 
 == Changelog ==
 
+= 1.0.14 =
+* [Fixed] Respect future status
+* [Fixed] Show planned (status future) posts in admin posts overview
+
 = 1.0.13 =
 * [Fixed] Trashing posts inside the posts editor is not possible
 

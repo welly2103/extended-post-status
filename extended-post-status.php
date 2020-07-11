@@ -27,7 +27,7 @@ __('Add new post status types.', 'extended-post-status');
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('EXTENDED_POST_STATUS_VERSION', '1.0.13');
+define('EXTENDED_POST_STATUS_VERSION', '1.0.14');
 
 /**
  * The code that runs during plugin activation.
