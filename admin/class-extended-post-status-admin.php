@@ -678,6 +678,7 @@ class Extended_Post_Status_Admin
      * Override the core status field with the custom status field
      * - If the post is getting trashed, don't do this!
      * - If the post is a planned post for the future, don't do this!
+     * - If no custom status is set (equals 'none'), set post status to draft
      *
      * @param type $data
      * @param type $postarr
@@ -688,6 +689,9 @@ class Extended_Post_Status_Admin
     {
         if (array_key_exists('post_status_', $postarr) && $data['post_status'] != 'trash' && $data['post_status'] != 'future') {
             $data['post_status'] = $postarr['post_status_'];
+        }
+        if ($data['post_status'] == 'none') {
+            $data['post_status'] = 'draft';
         }
         return $data;
     }

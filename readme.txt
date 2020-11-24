@@ -49,6 +49,10 @@ The "Hide in admin drop downs" option only hides the status if the current post 
 
 == Changelog ==
 
+= 1.0.15 =
+* [Fixed] PHP undefined indexes
+* [Fixed] Set default status to draft, if no status is selected.
+
 = 1.0.14 =
 * [Fixed] Respect future status
 * [Fixed] Show planned (status future) posts in admin posts overview
