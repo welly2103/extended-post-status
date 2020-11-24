@@ -463,7 +463,9 @@ class Extended_Post_Status_Admin
         $returner .= '<option value="none">' . __('- Select status -', 'extended-post-status') . '</option>';
         foreach ($statuses as $key => $value) {
             $term = get_term_by('slug', $key, 'status');
-            $term_meta = get_option("taxonomy_term_$term->term_id");
+            if ($term) {
+                $term_meta = get_option("taxonomy_term_$term->term_id");
+            }
             $hidden = 0;
             if ($term && array_key_exists('hide_in_drop_down', $term_meta) && $term_meta['hide_in_drop_down'] == 1) {
                 $hidden = 1;
@@ -684,7 +686,7 @@ class Extended_Post_Status_Admin
      */
     public function wp_insert_post_data($data, $postarr)
     {
-        if ($data['post_status'] != 'trash' && $data['post_status'] != 'future' && $postarr['post_status_']) {
+        if (array_key_exists('post_status_', $postarr) && $data['post_status'] != 'trash' && $data['post_status'] != 'future') {
             $data['post_status'] = $postarr['post_status_'];
         }
         return $data;
