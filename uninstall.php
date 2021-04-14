@@ -33,7 +33,7 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
  * @since    1.0.16
  */
 // reregister taxonomy (plugin is already deactivated, so the taxonomy is no
-// longer available!
+// longer available!)
 register_taxonomy('status', 'post');
 $args = [
     'taxonomy' => 'status',
