@@ -38,6 +38,12 @@ As there is no core hook to add new items to the status dropdown in posts and in
 There is an open trac ticket fo this circumstance:
 https://core.trac.wordpress.org/ticket/12706
 
+= What happens when I delete the plugin? =
+
+Since all custom statuses would no longer be available, deleting the plugin will reset all posts, pages etc. with an custom status to the draft status.
+This step cannot be undone by reinstalling the plugin!
+However, the plugin can be deactivated without any problems (see "What happens when I delete a status or deactivate the plugin?").
+
 = What happens when I delete a status or deactivate the plugin? =
 
 Be careful, posts without a valid status will be hidden! Just change the status of your post with a custom status to a system status (e.g. publish or draft) before you delete a custom status or deactivate the plugin.
@@ -48,6 +54,9 @@ Your posts will never be deleted, but you need to know your old status slugs onc
 The "Hide in admin drop downs" option only hides the status if the current post doesn't have the status. As long as your post has the hidden status, the drop down will still show it.
 
 == Changelog ==
+
+= 1.0.16 =
+* [Fixed] If you delete the plugin, all posts, pages etc. with custom status will be reset to draft status.
 
 = 1.0.15 =
 * [Fixed] PHP undefined indexes

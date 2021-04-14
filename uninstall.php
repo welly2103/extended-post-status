@@ -25,3 +25,36 @@
 if (!defined('WP_UNINSTALL_PLUGIN')) {
     exit;
 }
+
+/**
+ * Reset all posts with a custom status to status draft, so the posts don't
+ * get lost and still appear in the backend.
+ *
+ * @since    1.0.16
+ */
+// reregister taxonomy (plugin is already deactivated, so the taxonomy is no
+// longer available!
+register_taxonomy('status', 'post');
+$args = [
+    'taxonomy' => 'status',
+    'hide_empty' => false,
+];
+$custom_status = get_terms($args); //
+
+if (!empty($custom_status)) {
+    global $wpdb;
+
+    $status_list = [];
+    foreach ($custom_status as $status) {
+        $status_list[] = esc_sql($status->name);
+    }
+    $results = $wpdb->get_results('SELECT * FROM ' . $wpdb->prefix . 'posts WHERE post_status IN("' . implode('","', $status_list) . '")');
+    if (count($results) > 0) {
+        foreach ($results as $result) {
+            wp_update_post([
+                'ID' => $result->ID,
+                'post_status' => 'draft'
+            ]);
+        }
+    }
+}
