@@ -49,6 +49,9 @@ The "Hide in admin drop downs" option only hides the status if the current post 
 
 == Changelog ==
 
+= 1.0.16 =
+* [Fixed] When deactivating the plugin, all posts with a custom post status get reset to draft status
+
 = 1.0.15 =
 * [Fixed] PHP undefined indexes
 * [Fixed] Set default status to draft, if no status is selected.

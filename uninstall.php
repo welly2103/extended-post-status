@@ -25,3 +25,33 @@
 if (!defined('WP_UNINSTALL_PLUGIN')) {
     exit;
 }
+
+/**
+ * Reset all posts with a custom status to status draft, so the posts don't
+ * get lost and still appear in the backend.
+ *
+ * @since    1.0.16
+ */
+$args = [
+    'taxonomy' => 'status',
+    'hide_empty' => false,
+];
+$custom_status = get_terms($args);
+
+if ($custom_status) {
+    $status_list = [];
+    foreach ($custom_status as $status) {
+        $status_list[] = $status->name;
+    }
+    $args = [
+        'post_status' => $status_list
+    ];
+    $query = new WP_Query($args);
+    while ($query->have_posts()) {
+        $query->the_post();
+        wp_update_post([
+            'ID' => get_the_ID(),
+            'post_status' => 'draft'
+        ]);
+    }
+}
