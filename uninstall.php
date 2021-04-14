@@ -46,12 +46,20 @@ if ($custom_status) {
     $args = [
         'post_status' => $status_list
     ];
+
+    update_option('dddddd_1', implode(',', $status_list));
     $query = new WP_Query($args);
+    $foo = [];
     while ($query->have_posts()) {
         $query->the_post();
         wp_update_post([
             'ID' => get_the_ID(),
             'post_status' => 'draft'
         ]);
+
+
+
+        $foo[] = get_the_ID();
     }
+    update_option('dddddd_2', json_encode($foo));
 }
