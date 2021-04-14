@@ -32,34 +32,29 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
  *
  * @since    1.0.16
  */
+// reregister taxonomy (plugin is already deactivated, so the taxonomy is no
+// longer available!
+register_taxonomy('status', 'post');
 $args = [
     'taxonomy' => 'status',
     'hide_empty' => false,
 ];
-$custom_status = get_terms($args);
+$custom_status = get_terms($args); //
 
-if ($custom_status) {
+if (!empty($custom_status)) {
+    global $wpdb;
+
     $status_list = [];
     foreach ($custom_status as $status) {
-        $status_list[] = $status->name;
+        $status_list[] = esc_sql($status->name);
     }
-    $args = [
-        'post_status' => $status_list
-    ];
-
-    update_option('dddddd_1', implode(',', $status_list));
-    $query = new WP_Query($args);
-    $foo = [];
-    while ($query->have_posts()) {
-        $query->the_post();
-        wp_update_post([
-            'ID' => get_the_ID(),
-            'post_status' => 'draft'
-        ]);
-
-
-
-        $foo[] = get_the_ID();
+    $results = $wpdb->get_results('SELECT * FROM ' . $wpdb->prefix . 'posts WHERE post_status IN("' . implode('","', $status_list) . '")');
+    if (count($results) > 0) {
+        foreach ($results as $result) {
+            wp_update_post([
+                'ID' => $result->ID,
+                'post_status' => 'draft'
+            ]);
+        }
     }
-    update_option('dddddd_2', json_encode($foo));
 }
