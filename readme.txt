@@ -55,6 +55,14 @@ The "Hide in admin drop downs" option only hides the status if the current post 
 
 == Changelog ==
 
+= 1.0.17 =
+* [Fixed] Status which were created by other plugins are no longer overwritten (Thanks to @ikancijan)
+See: https://wordpress.org/support/topic/fix-for-custom-statuses-by-other-plugins/
+* [Fixed] Add custom status meta box to gutenberg on all custom post types and not only for posts and pages
+See: https://wordpress.org/support/topic/public-not-working-for-listings/
+* [Fixed] Allow users with editing capabilities to see/preview posts with a non public status
+See: https://wordpress.org/support/topic/permalinks-further-issue/
+
 = 1.0.16 =
 * [Fixed] If you delete the plugin, all posts, pages etc. with custom status will be reset to draft status.
 

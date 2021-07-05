@@ -190,7 +190,7 @@ class Extended_Post_Status_Admin
                 'label' => $single_status->name,
                 'label_count' => _n_noop($single_status->name . ' <span class="count">(%s)</span>', $single_status->name . ' <span class="count">(%s)</span>'),
             ];
-            if (array_key_exists('public', $term_meta) && $term_meta['public'] == 1) {
+            if ((array_key_exists('public', $term_meta) && $term_meta['public'] == 1) || current_user_can('edit_posts')) {
                 $args['public'] = true;
             } else {
                 $args['public'] = false;
@@ -439,12 +439,9 @@ class Extended_Post_Status_Admin
      */
     public function add_status_meta_box()
     {
-        $screens = ['post', 'page'];
         $is_block_editor = get_current_screen()->is_block_editor();
         if ($is_block_editor) {
-            foreach ($screens as $screen) {
-                add_meta_box('extended_post_status', __('Status', 'extended-post-status'), ['Extended_Post_Status_Admin', 'status_meta_box_content'], $screen, 'side', 'high');
-            }
+            add_meta_box('extended_post_status', __('Status', 'extended-post-status'), ['Extended_Post_Status_Admin', 'status_meta_box_content'], null, 'side', 'high');
         }
     }
 
@@ -525,25 +522,40 @@ class Extended_Post_Status_Admin
     {
         $statuses = self::get_status();
         /* Check if query has no further params */
-        if (
-            (array_key_exists('post_status', $query->query) && empty($query->query['post_status']))
-        ) {
-            $statuses_show_in_admin_all_list = [];
-            $statuses_show_in_admin_all_list[] = 'publish';
-            $statuses_show_in_admin_all_list[] = 'draft';
-            $statuses_show_in_admin_all_list[] = 'pending';
-            $statuses_show_in_admin_all_list[] = 'future';
-            $statuses_show_in_admin_all_list[] = 'private';
+        if ((array_key_exists('post_status', $query->query) && empty($query->query['post_status']))) {
+            $statuses_show_in_admin_all_list = self::get_all_post_statuses();
             foreach ($statuses as $status) {
                 $term_meta = get_option("taxonomy_term_$status->term_id");
-                if ($term_meta['show_in_admin_all_list'] == 1) {
-                    $statuses_show_in_admin_all_list[] = $status->slug;
+                if (!in_array($status->slug, $statuses_show_in_admin_all_list)) {
+                    if ($term_meta['show_in_admin_all_list'] == 1) {
+                        $statuses_show_in_admin_all_list[] = $status->slug;
+                    }
+                } else {
+                    if ($term_meta['show_in_admin_all_list'] != 1) {
+                        if (($key = array_search($status->slug, $statuses_show_in_admin_all_list)) !== false) {
+                            unset($statuses_show_in_admin_all_list[$key]);
+                        }
+                    }
                 }
             }
-            set_query_var('post_status', $statuses_show_in_admin_all_list);
+
+            set_query_var('post_status', array_values($statuses_show_in_admin_all_list));
             return;
         }
         return;
+    }
+
+    /**
+     * Get all available post statuses
+     *
+     * @return array
+     * @since    1.0.17
+     */
+    private static function get_all_post_statuses()
+    {
+        global $wpdb;
+        $query = $wpdb->get_results("SELECT DISTINCT $wpdb->posts.post_status as post_status FROM $wpdb->posts WHERE post_status NOT IN ('auto-draft', 'trash', 'inherit')");
+        return wp_list_pluck($query, 'post_status');
     }
 
     /**
