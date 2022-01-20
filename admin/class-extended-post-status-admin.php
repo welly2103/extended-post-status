@@ -137,7 +137,7 @@ class Extended_Post_Status_Admin
                     var post_quickedit_tr_id = jQuery('.inline-editor').attr('id');
                     if (post_quickedit_tr_id) {
                         var post_edit_tr = post_quickedit_tr_id.replace("edit", "post");
-                        j('.quick-edit-row select[name="_status"] option').each(function () {
+                        jQuery('.quick-edit-row select[name="_status"] option').each(function () {
                             jQuery(this).show();
                             if (jQuery(this).hasClass('hidden-1') && !jQuery('#' + post_edit_tr).hasClass('status-' + jQuery(this).val())) {
                                 jQuery(this).hide();
