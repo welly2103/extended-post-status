@@ -63,7 +63,7 @@ class Extended_Post_Status
         if (defined('EXTENDED_POST_STATUS_VERSION')) {
             $this->version = EXTENDED_POST_STATUS_VERSION;
         } else {
-            $this->version = '1.0.17';
+            $this->version = '1.0.18';
         }
         $this->plugin_name = 'extended-post-status';
 
@@ -129,6 +129,7 @@ class Extended_Post_Status
         $this->loader->add_action('admin_footer-post.php', $plugin_admin, 'append_post_status_list');
         $this->loader->add_action('admin_footer-post-new.php', $plugin_admin, 'append_post_status_list');
         $this->loader->add_action('admin_footer-edit.php', $plugin_admin, 'append_post_status_list_quickedit');
+        $this->loader->add_action('admin_print_footer_scripts', $plugin_admin, 'change_publish_button_gutenberg');
         $this->loader->add_action('display_post_states', $plugin_admin, 'append_post_status_post_overview');
         $this->loader->add_action('status_add_form_fields', $plugin_admin, 'status_taxonomy_custom_fields', 10, 2);
         $this->loader->add_action('created_status', $plugin_admin, 'save_status_taxonomy_custom_fields', 10, 2);
@@ -136,12 +137,14 @@ class Extended_Post_Status
         $this->loader->add_action('edited_status', $plugin_admin, 'save_status_taxonomy_custom_fields', 10, 2);
         $this->loader->add_action('manage_edit-status_columns', $plugin_admin, 'edit_status_taxonomy_columns');
         $this->loader->add_action('add_meta_boxes', $plugin_admin, 'add_status_meta_box');
+        $this->loader->add_action('enqueue_block_editor_assets', $plugin_admin, 'remove_publishing_sidebar_gutenberg');
 
         $this->loader->add_filter('parent_file', $plugin_admin, 'parent_file');
         $this->loader->add_filter('submenu_file', $plugin_admin, 'submenu_file');
         $this->loader->add_filter('wp_update_term_data', $plugin_admin, 'override_status_taxonomy_on_save', 10, 4);
         $this->loader->add_filter('manage_status_custom_column', $plugin_admin, 'add_status_taxonomy_columns_content', 10, 3);
         $this->loader->add_filter('wp_insert_post_data', $plugin_admin, 'wp_insert_post_data', 99, 2);
+        $this->loader->add_filter('gettext', $plugin_admin, 'gettext_override', 10, 3);
     }
 
     /**

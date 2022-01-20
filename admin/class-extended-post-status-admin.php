@@ -135,13 +135,15 @@ class Extended_Post_Status_Admin
                 // Wait for the quick-edit dom to change
                 setTimeout(function () {
                     var post_quickedit_tr_id = jQuery('.inline-editor').attr('id');
-                    var post_edit_tr = post_quickedit_tr_id.replace("edit", "post");
-                    jQuery('.quick-edit-row select[name="_status"] option').each(function () {
-                        jQuery(this).show();
-                        if (jQuery(this).hasClass('hidden-1') && !jQuery('#' + post_edit_tr).hasClass('status-' + jQuery(this).val())) {
-                            jQuery(this).hide();
-                        }
-                    });
+                    if (post_quickedit_tr_id) {
+                        var post_edit_tr = post_quickedit_tr_id.replace("edit", "post");
+                        j('.quick-edit-row select[name="_status"] option').each(function () {
+                            jQuery(this).show();
+                            if (jQuery(this).hasClass('hidden-1') && !jQuery('#' + post_edit_tr).hasClass('status-' + jQuery(this).val())) {
+                                jQuery(this).hide();
+                            }
+                        });
+                    }
                     jQuery('#bulk-edit select[name="_status"] option').each(function () {
                         jQuery(this).show();
                         if (jQuery(this).hasClass('hidden-1')) {
@@ -706,5 +708,56 @@ class Extended_Post_Status_Admin
             $data['post_status'] = 'draft';
         }
         return $data;
+    }
+
+    /**
+     * Override the text on the Gutenberg publish button
+     * - This is done to prevent confusion while publishing or saving a post
+     *
+     * @since    1.0.18
+     */
+    public function change_publish_button_gutenberg()
+    {
+        if (wp_script_is('wp-i18n')) {
+            ?>
+            <script type="text/javascript">
+                wp.i18n.setLocaleData({'Publish': ['<?php echo __('Save'); ?>']});
+            </script>
+            <?php
+        }
+    }
+
+    /**
+     * Remove the "two click" publishing sidebar
+     * - See: https://github.com/WordPress/gutenberg/issues/9077#issuecomment-458309231
+     *
+     * @since    1.0.18
+     */
+    public function remove_publishing_sidebar_gutenberg()
+    {
+        ?>
+        <script type="text/javascript">
+            window.onload = function () {
+                window.wp.data.dispatch('core/editor').disablePublishSidebar();
+            };
+        </script>
+        <?php
+    }
+
+    /**
+     * Override gettext snippets
+     *
+     * @param type $translated
+     * @param type $original
+     * @param type $domain
+     * @return type
+     * @since    1.0.18
+     */
+    public function gettext_override($translated, $original, $domain)
+    {
+        if ($original == 'Post published.') {
+            $translated = __('Post saved.');
+        }
+        return $translated;
     }
 }

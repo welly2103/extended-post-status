@@ -16,6 +16,8 @@ This plugin provides the option to add new statuses to the backend and define th
 
 You will find a new menu item located in the settings admin menu.
 
+For the sake of understanding, this plugin minimally changes messages, translations and workflow in Gutenberg Editor!
+
 == Installation ==
 
 1. Upload to the `/wp-content/plugins/` directory
@@ -53,7 +55,18 @@ Your posts will never be deleted, but you need to know your old status slugs onc
 
 The "Hide in admin drop downs" option only hides the status if the current post doesn't have the status. As long as your post has the hidden status, the drop down will still show it.
 
+= Why is my button no longer called publish in Gutenberg? =
+
+To avoid misunderstandings in handling with own custom statuses, the button has been named more generally and is now just called Save.
+Likewise, the message that a post has been published has been renamed. This now only indicates that a post has been saved. The indicator whether a post is published or not should always be the status and not a message or button label.
+Furthermore, the publishing sidebar of Gutenberg has been removed.
+
 == Changelog ==
+
+= 1.0.18 =
+* [Added] The publish button in Gutenberg and Classic Editor no longer contains publish but only save to prevent confusion
+* [Added] Remove the "two click" publishing sidebar in Gutenberg
+* [Added] Override post published message and replace it with general post saved message in Gutenberg
 
 = 1.0.17 =
 * [Fixed] Status which were created by other plugins are no longer overwritten (Thanks to @ikancijan)
