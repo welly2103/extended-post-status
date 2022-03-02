@@ -63,6 +63,9 @@ Furthermore, the publishing sidebar of Gutenberg has been removed.
 
 == Changelog ==
 
+= 1.0.19 =
+* [Fixed] Update handling of the javascript for disabling the publishing sidebar in Gutenberg
+
 = 1.0.18 =
 * [Added] The publish button in Gutenberg and Classic Editor no longer contains publish but only save to prevent confusion
 * [Added] Remove the "two click" publishing sidebar in Gutenberg

@@ -735,13 +735,7 @@ class Extended_Post_Status_Admin
      */
     public function remove_publishing_sidebar_gutenberg()
     {
-        ?>
-        <script type="text/javascript">
-            window.onload = function () {
-                window.wp.data.dispatch('core/editor').disablePublishSidebar();
-            };
-        </script>
-        <?php
+        wp_enqueue_script('disablePublishSidebar', plugin_dir_url(__DIR__) . 'admin/js/disablePublishSidebar.js', ['jquery']);
     }
 
     /**
