@@ -4,7 +4,7 @@ Tags: status, post, publishing, extended, statuses, page, post type
 Requires at least: 4.9
 Tested up to: 6.2
 Requires PHP: 7.2
-Stable tag: 6.1
+Stable tag: 6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,10 @@ Likewise, the message that a post has been published has been renamed. This now 
 Furthermore, the publishing sidebar of Gutenberg has been removed.
 
 == Changelog ==
+
+= 1.0.20 =
+* [Security] Check user capabilities in publishing process. (Thanks to TaeEun Lee)
+See: https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/extended-post-status/extended-post-status-1019-missing-authorization-via-wp-insert-post-data
 
 = 1.0.19 =
 * [Fixed] Update handling of the javascript for disabling the publishing sidebar in Gutenberg

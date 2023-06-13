@@ -113,47 +113,49 @@ class Extended_Post_Status_Admin
      */
     public function append_post_status_list_quickedit()
     {
-        $status = self::get_status();
-        foreach ($status as $single_status) {
-            $term_meta = get_option("taxonomy_term_$single_status->term_id");
-            $hidden = 0;
-            if (array_key_exists('hide_in_drop_down', $term_meta) && $term_meta['hide_in_drop_down'] == 1) {
-                $hidden = 1;
+        if(current_user_can('publish_posts')) {
+            $status = self::get_status();
+            foreach ($status as $single_status) {
+                $term_meta = get_option("taxonomy_term_$single_status->term_id");
+                $hidden = 0;
+                if (array_key_exists('hide_in_drop_down', $term_meta) && $term_meta['hide_in_drop_down'] == 1) {
+                    $hidden = 1;
+                } ?>
+                <script type="text/javascript">
+                    jQuery(document).ready(function () {
+                        jQuery('#bulk-edit select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>" class="hidden-<?php echo $hidden; ?>"><?php echo $single_status->name; ?></option>');
+                        jQuery('.quick-edit-row select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>" class="hidden-<?php echo $hidden; ?>"><?php echo $single_status->name; ?></option>');
+                    });
+                </script>
+            <?php
             } ?>
             <script type="text/javascript">
-                jQuery(document).ready(function () {
-                    jQuery('#bulk-edit select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>" class="hidden-<?php echo $hidden; ?>"><?php echo $single_status->name; ?></option>');
-                    jQuery('.quick-edit-row select[name="_status"]').append('<option value="<?php echo $single_status->slug; ?>" class="hidden-<?php echo $hidden; ?>"><?php echo $single_status->name; ?></option>');
-                });
-            </script>
-        <?php
-        } ?>
-        <script type="text/javascript">
-            jQuery('#the-list').bind('DOMSubtreeModified', postListUpdated);
+                jQuery('#the-list').bind('DOMSubtreeModified', postListUpdated);
 
-            function postListUpdated() {
-                // Wait for the quick-edit dom to change
-                setTimeout(function () {
-                    var post_quickedit_tr_id = jQuery('.inline-editor').attr('id');
-                    if (post_quickedit_tr_id) {
-                        var post_edit_tr = post_quickedit_tr_id.replace("edit", "post");
-                        jQuery('.quick-edit-row select[name="_status"] option').each(function () {
+                function postListUpdated() {
+                    // Wait for the quick-edit dom to change
+                    setTimeout(function () {
+                        var post_quickedit_tr_id = jQuery('.inline-editor').attr('id');
+                        if (post_quickedit_tr_id) {
+                            var post_edit_tr = post_quickedit_tr_id.replace("edit", "post");
+                            jQuery('.quick-edit-row select[name="_status"] option').each(function () {
+                                jQuery(this).show();
+                                if (jQuery(this).hasClass('hidden-1') && !jQuery('#' + post_edit_tr).hasClass('status-' + jQuery(this).val())) {
+                                    jQuery(this).hide();
+                                }
+                            });
+                        }
+                        jQuery('#bulk-edit select[name="_status"] option').each(function () {
                             jQuery(this).show();
-                            if (jQuery(this).hasClass('hidden-1') && !jQuery('#' + post_edit_tr).hasClass('status-' + jQuery(this).val())) {
+                            if (jQuery(this).hasClass('hidden-1')) {
                                 jQuery(this).hide();
                             }
                         });
-                    }
-                    jQuery('#bulk-edit select[name="_status"] option').each(function () {
-                        jQuery(this).show();
-                        if (jQuery(this).hasClass('hidden-1')) {
-                            jQuery(this).hide();
-                        }
-                    });
-                }, 100);
-            }
-        </script>
-        <?php
+                    }, 100);
+                }
+            </script>
+            <?php
+        }
     }
 
     /**
@@ -442,7 +444,7 @@ class Extended_Post_Status_Admin
     public function add_status_meta_box()
     {
         $is_block_editor = get_current_screen()->is_block_editor();
-        if ($is_block_editor) {
+        if ($is_block_editor && current_user_can('publish_posts')) {
             add_meta_box('extended_post_status', __('Status', 'extended-post-status'), ['Extended_Post_Status_Admin', 'status_meta_box_content'], null, 'side', 'high');
         }
     }
@@ -701,11 +703,13 @@ class Extended_Post_Status_Admin
      */
     public function wp_insert_post_data($data, $postarr)
     {
-        if (array_key_exists('post_status_', $postarr) && $data['post_status'] != 'trash' && $data['post_status'] != 'future') {
-            $data['post_status'] = $postarr['post_status_'];
-        }
-        if ($data['post_status'] == 'none') {
-            $data['post_status'] = 'draft';
+        if(current_user_can('publish_posts')) {
+            if (array_key_exists('post_status_', $postarr) && $data['post_status'] != 'trash' && $data['post_status'] != 'future') {
+                $data['post_status'] = $postarr['post_status_'];
+            }
+            if ($data['post_status'] == 'none') {
+                $data['post_status'] = 'draft';
+            }
         }
         return $data;
     }
@@ -718,7 +722,7 @@ class Extended_Post_Status_Admin
      */
     public function change_publish_button_gutenberg()
     {
-        if (wp_script_is('wp-i18n')) {
+        if (wp_script_is('wp-i18n') && current_user_can('publish_posts')) {
             ?>
             <script type="text/javascript">
                 wp.i18n.setLocaleData({'Publish': ['<?php echo __('Save'); ?>']});
@@ -735,7 +739,9 @@ class Extended_Post_Status_Admin
      */
     public function remove_publishing_sidebar_gutenberg()
     {
-        wp_enqueue_script('disablePublishSidebar', plugin_dir_url(__DIR__) . 'admin/js/disablePublishSidebar.js', ['jquery']);
+        if(current_user_can('publish_posts')) {
+            wp_enqueue_script('disablePublishSidebar', plugin_dir_url(__DIR__) . 'admin/js/disablePublishSidebar.js', ['jquery']);
+        }
     }
 
     /**
@@ -749,7 +755,7 @@ class Extended_Post_Status_Admin
      */
     public function gettext_override($translated, $original, $domain)
     {
-        if ($original == 'Post published.') {
+        if ($original == 'Post published.' && current_user_can('publish_posts')) {
             $translated = __('Post saved.');
         }
         return $translated;
