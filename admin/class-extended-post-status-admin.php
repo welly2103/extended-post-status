@@ -757,8 +757,14 @@ class Extended_Post_Status_Admin
      */
     public function gettext_override($translated, $original, $domain)
     {
-        if ($original == 'Post published.' && current_user_can('publish_posts')) {
+        if ($original == 'Publish' && current_user_can('publish_posts')) {
+            $translated = __('Save');
+        }
+        if (($original == 'Post published.' || $original == 'Post reverted to draft.') && current_user_can('publish_posts')) {
             $translated = __('Post saved.');
+        }
+        if (($original == 'Page published.' || $original == 'Page reverted to draft.') && current_user_can('publish_posts')) {
+            $translated = __('Page saved.');
         }
         return $translated;
     }
