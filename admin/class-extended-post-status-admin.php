@@ -113,7 +113,7 @@ class Extended_Post_Status_Admin
      */
     public function append_post_status_list_quickedit()
     {
-        if(current_user_can('publish_posts')) {
+        if (current_user_can('publish_posts')) {
             $status = self::get_status();
             foreach ($status as $single_status) {
                 $term_meta = get_option("taxonomy_term_$single_status->term_id");
@@ -190,7 +190,7 @@ class Extended_Post_Status_Admin
         $status = self::get_status();
         foreach ($status as $single_status) {
             $term_meta = get_option("taxonomy_term_$single_status->term_id");
-            if(is_array($term_meta)){
+            if (is_array($term_meta)) {
                 $args = [
                     'label' => $single_status->name,
                     'label_count' => _n_noop($single_status->name . ' <span class="count">(%s)</span>', $single_status->name . ' <span class="count">(%s)</span>'),
@@ -308,7 +308,7 @@ class Extended_Post_Status_Admin
         $fields = ['public', 'show_in_admin_all_list', 'show_in_admin_status_list', 'hide_in_drop_down'];
         $is_inline_edit = filter_input(INPUT_POST, '_inline_edit');
 
-        /* Reset all custom checkbox fields */
+        // Reset all custom checkbox fields
         if (!$is_inline_edit) {
             foreach ($fields as $field) {
                 $term_meta[$field] = 0;
@@ -316,7 +316,7 @@ class Extended_Post_Status_Admin
             update_option("taxonomy_term_$term_id", $term_meta);
         }
 
-        /* Update new values */
+        // Update new values
         if (isset($_POST['term_meta'])) {
             $term_meta = get_option("taxonomy_term_$term_id");
             $cat_keys = array_keys($_POST['term_meta']);
@@ -347,7 +347,7 @@ class Extended_Post_Status_Admin
         if ($taxonomy == 'status') {
             $slug = $data['slug'];
 
-            /* Cut slug if it is longer than 20 chars */
+            // Cut slug if it is longer than 20 chars
             if (strlen($slug) > 20) {
                 $data['slug'] = substr($slug, 0, 20);
             }
@@ -527,7 +527,7 @@ class Extended_Post_Status_Admin
     public static function override_admin_post_list($query)
     {
         $statuses = self::get_status();
-        /* Check if query has no further params */
+        // Check if query has no further params
         if ((array_key_exists('post_status', $query->query) && empty($query->query['post_status']))) {
             $statuses_show_in_admin_all_list = self::get_all_post_statuses();
             foreach ($statuses as $status) {
@@ -574,7 +574,7 @@ class Extended_Post_Status_Admin
         // Add general plugin name and desc translations
         __('Extended Post Status', 'extended-post-status');
         __('Add new post status types.', 'extended-post-status');
-        
+
         register_setting(
             'writing',
             'extended-post-status-add-extra-admin-menu-item',
@@ -709,7 +709,7 @@ class Extended_Post_Status_Admin
      */
     public function wp_insert_post_data($data, $postarr)
     {
-        if(current_user_can('publish_posts')) {
+        if (current_user_can('publish_posts')) {
             if (array_key_exists('post_status_', $postarr) && $data['post_status'] != 'trash' && $data['post_status'] != 'future') {
                 $data['post_status'] = $postarr['post_status_'];
             }
@@ -745,7 +745,7 @@ class Extended_Post_Status_Admin
      */
     public function remove_publishing_sidebar_gutenberg()
     {
-        if(current_user_can('publish_posts')) {
+        if (current_user_can('publish_posts')) {
             wp_enqueue_script('disablePublishSidebar', plugin_dir_url(__DIR__) . 'admin/js/disablePublishSidebar.js', ['jquery']);
         }
     }
