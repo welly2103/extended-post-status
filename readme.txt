@@ -2,13 +2,12 @@
 Contributors: welly2103
 Tags: status, post, publishing, extended, statuses, page, post type
 Requires at least: 4.9
-Tested up to: 6.5
+Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 6.5
+Stable tag: 6.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-Add new statuses to all post types (posts, pages, products, ...). You can handle post types with custom statuses and control the visibility of post types with your custom statuses.
+Description: Add new statuses to all post types (posts, pages, products, ...).
 
 == Description ==
 
@@ -62,6 +61,9 @@ Likewise, the message that a post has been published has been renamed. This now 
 Furthermore, the publishing sidebar of Gutenberg has been removed.
 
 == Changelog ==
+
+= 1.0.21 =
+* [Fixed] PHP incorrect calling of _load_textdomain_just_in_time
 
 = 1.0.20 =
 * [Security] Check user capabilities in publishing process. (Thanks to TaeEun Lee)

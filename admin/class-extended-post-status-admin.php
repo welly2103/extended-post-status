@@ -571,6 +571,10 @@ class Extended_Post_Status_Admin
      */
     public function settings_init()
     {
+        // Add general plugin name and desc translations
+        __('Extended Post Status', 'extended-post-status');
+        __('Add new post status types.', 'extended-post-status');
+        
         register_setting(
             'writing',
             'extended-post-status-add-extra-admin-menu-item',
